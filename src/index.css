@@ -1,13 +1,68 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    padding   : 0;
+    margin    : 0;
+    box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+input {
+    outline: auto;
+}
+
+#components-layout-demo-custom-trigger .trigger {
+    padding    : 0 24px;
+    font-size  : 18px;
+    line-height: 64px;
+    cursor     : pointer;
+    transition : color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+    color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+    height    : 32px;
+    margin    : 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#components-form-demo-control-hooks .ant-btn {
+    margin-right: 8px;
+}
+
+.ant-btn-primary {
+    background-color: #1677ff;
+}
+
+.site-layout-content {
+    min-height: 280px;
+    padding   : 24px;
+}
+
+#components-layout-demo-top .logo {
+    float     : left;
+    width     : 120px;
+    height    : 31px;
+    margin    : 16px 24px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ant-row-rtl #components-layout-demo-top .logo {
+    float : right;
+    margin: 16px 0 16px 24px;
+}
+
+.cardProduct .ant-card-body{
+    padding: 0 24px 24px;
+}
+
+.dotsSlider.slick-dots li.slick-active button {
+    background: red !important; 
+    transform: scaley(2.4);
+    border-radius: 6px;
 }
