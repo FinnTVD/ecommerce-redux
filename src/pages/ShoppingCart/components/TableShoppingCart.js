@@ -39,7 +39,9 @@ const TableShoppingCart = () => {
 
 	const handleDeleteProduct = async (id) => {
 		try {
-			await axios.delete(`http://localhost:3000/shoppingCart/${id}`);
+			await axios.delete(
+				`https://api-ecommerce-redux.vercel.app/shoppingCart/${id}`
+			);
 			dispatch(
 				dispatch(
 					setSelectedRowKeys(selectedRowKeys.filter((e) => e != id))

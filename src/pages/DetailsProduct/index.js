@@ -47,9 +47,11 @@ const DetailsProduct = () => {
 	}, []);
 
 	useEffect(() => {
-		axios.get("http://localhost:3000/listProduct").then((res) => {
-			setItem(res.data.filter((e) => e.id == id));
-		});
+		axios
+			.get("https://api-ecommerce-redux.vercel.app/listProduct")
+			.then((res) => {
+				setItem(res.data.filter((e) => e.id == id));
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [idParam]);
 
@@ -60,13 +62,13 @@ const DetailsProduct = () => {
 				shoppingCart.some((e) => e.id == id)
 			) {
 				const res = await axios.put(
-					`http://localhost:3000/shoppingCart/${id}`,
+					`https://api-ecommerce-redux.vercel.app/shoppingCart/${id}`,
 					item[0]
 				);
 				res.status === 200 && dispatch(setIsAddSuccess(!isAddSuccess));
 			} else {
 				const res = await axios.post(
-					"http://localhost:3000/shoppingCart",
+					"https://api-ecommerce-redux.vercel.app/shoppingCart",
 					item[0]
 				);
 				res.status === 201 && dispatch(setIsAddSuccess(!isAddSuccess));
@@ -117,7 +119,7 @@ const DetailsProduct = () => {
 						</div>
 					</Col>
 					<Col className="gutter-row" span={8}>
-						<div className="flex items-end gap-x-4 mb-3">
+						<div className="flex items-end mb-3 gap-x-4">
 							<p className="text-[#d70018] text-lg font-bold">
 								{sale.salePrice === 0
 									? ""
@@ -135,7 +137,7 @@ const DetailsProduct = () => {
 						</div>
 						<Row gutter={[16, 16]}>
 							<Col span={24}>
-								<h3 className="font-bold text-lg ">
+								<h3 className="text-lg font-bold ">
 									Mời bạn chọn màu
 								</h3>
 							</Col>
@@ -205,11 +207,11 @@ const DetailsProduct = () => {
 												d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
 											/>
 										</svg>
-										<span className="font-bold text-base">
+										<span className="text-base font-bold">
 											Khuyến mãi
 										</span>
 									</div>
-									<ul className="p-3 flex flex-col gap-y-3">
+									<ul className="flex flex-col p-3 gap-y-3">
 										{promote.map((item, index) => (
 											<li
 												key={index}
@@ -264,11 +266,11 @@ const DetailsProduct = () => {
 								gap: "16px 0",
 							}}
 						>
-							<h2 className="font-bold text-base">
+							<h2 className="text-base font-bold">
 								Thông tin sản phẩm
 							</h2>
 							{description.status && (
-								<div className="flex gap-x-2 items-center">
+								<div className="flex items-center gap-x-2">
 									<div className="w-6 h-6">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -289,7 +291,7 @@ const DetailsProduct = () => {
 								</div>
 							)}
 							{description.gift && (
-								<div className="flex gap-x-2 items-center">
+								<div className="flex items-center gap-x-2">
 									<div className="w-6 h-6">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -310,7 +312,7 @@ const DetailsProduct = () => {
 								</div>
 							)}
 							{description.guarantee && (
-								<div className="flex gap-x-2 items-center">
+								<div className="flex items-center gap-x-2">
 									<div className="w-6 h-6">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"

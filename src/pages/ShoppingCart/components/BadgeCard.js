@@ -12,7 +12,7 @@ const BadgeCard = ({ children }) => {
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:3000/shoppingCart")
+			.get("https://api-ecommerce-redux.vercel.app/shoppingCart")
 			.then((res) => dispatch(setLengthShoppingCart(res.data.length)));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete, isAddSuccess]);

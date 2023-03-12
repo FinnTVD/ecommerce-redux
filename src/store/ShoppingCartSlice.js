@@ -45,7 +45,7 @@ export const getShoppingCart = createAsyncThunk(
 	"getShoppingCart",
 	async (page = 1) => {
 		const res = await axios.get(
-			`http://localhost:3000/shoppingCart?_page=${page}&_limit=5`
+			`https://api-ecommerce-redux.vercel.app/shoppingCart?_page=${page}&_limit=5`
 		);
 		return res.data;
 	}

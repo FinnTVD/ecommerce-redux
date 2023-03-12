@@ -1,8 +1,6 @@
 import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const { Meta } = Card;
-
 const CardProduct = ({ item }) => {
 	const navigate = useNavigate();
 	const { id, name, listPrice, rating, avatar } = item;
@@ -45,7 +43,7 @@ const CardProduct = ({ item }) => {
 				<div>Reviews: {rating.review}</div>,
 			]}
 		>
-			<h1 title={name} className="font-medium text-base truncate">
+			<h1 title={name} className="text-base font-medium truncate">
 				{name}
 			</h1>
 		</Card>

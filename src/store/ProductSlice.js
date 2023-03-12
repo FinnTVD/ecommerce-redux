@@ -47,7 +47,7 @@ export const fetchProduct = createAsyncThunk(
 	"fetchProduct",
 	async (page = 1) => {
 		const response = await axios.get(
-			`http://localhost:3000/listProduct?_page=${page}&_limit=10`
+			`https://api-ecommerce-redux.vercel.app/listProduct?_page=${page}&_limit=10`
 		);
 		return response.data;
 	}
@@ -56,7 +56,9 @@ export const fetchProduct = createAsyncThunk(
 export const getTotalPagination = createAsyncThunk(
 	"getTotalPagination",
 	async () => {
-		const res = await axios.get("http://localhost:3000/listProduct");
+		const res = await axios.get(
+			"https://api-ecommerce-redux.vercel.app/listProduct"
+		);
 		const total = (await Math.ceil(res.data.length / 10)) * 10;
 		return total;
 	}
@@ -66,7 +68,7 @@ export const fetchCategory = createAsyncThunk(
 	"fetchCategory",
 	async (category) => {
 		const response = await axios.get(
-			`http://localhost:3000/listproduct?category=${category}`
+			`https://api-ecommerce-redux.vercel.app/listProduct?category=${category}`
 		);
 		return response.data;
 	}

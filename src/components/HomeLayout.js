@@ -6,7 +6,7 @@ import axios from "axios";
 import { fetchCategory, fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
 import BadgeCard from "../pages/ShoppingCart/components/BadgeCard";
-import { setCartList, setShoppingCart } from "../store/ShoppingCartSlice";
+import { setCartList } from "../store/ShoppingCartSlice";
 
 import { Breadcrumb, Col, Layout, Menu, Row, theme } from "antd";
 
@@ -56,7 +56,9 @@ const HomeLayout = () => {
 	}, [isDelete, isAddSuccess]);
 
 	const getCartList = async (page) => {
-		const res = await axios.get("http://localhost:3000/shoppingCart");
+		const res = await axios.get(
+			"https://api-ecommerce-redux.vercel.app/shoppingCart"
+		);
 		const data = await res.data;
 		dispatch(setCartList(data));
 	};
@@ -85,13 +87,13 @@ const HomeLayout = () => {
 
 	return (
 		<Layout className="layout">
-			<Header className="fixed inset-0 z-50 w-full flex justify-between">
+			<Header className="fixed inset-0 z-50 flex justify-between w-full">
 				<Row style={{ width: "100%" }}>
 					<Col span={16}>
 						<div className="flex">
 							<div
 								onClick={handleClickHome}
-								className="flex w-auto items-center px-4 text-white cursor-pointer logo hover:text-gray-300"
+								className="flex items-center w-auto px-4 text-white cursor-pointer logo hover:text-gray-300"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +127,7 @@ const HomeLayout = () => {
 							/>
 						</div>
 					</Col>
-					<Col span={8} className="flex justify-end items-center">
+					<Col span={8} className="flex items-center justify-end">
 						<BadgeCard>
 							<PopoverCard>
 								<svg
