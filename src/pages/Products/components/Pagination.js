@@ -1,18 +1,25 @@
 import { Pagination } from "antd";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProduct } from "../../../store/ProductSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	fetchProduct,
+	setCurrentPagination,
+} from "../../../store/ProductSlice";
 const PaginationProduct = ({ total }) => {
-	const [current, setCurrent] = useState(1);
+	const { currentPagination } = useSelector((state) => state.product);
+
 	const dispatch = useDispatch();
 
 	const handleChange = (e) => {
-		setCurrent(e);
 		dispatch(fetchProduct(e));
+		dispatch(setCurrentPagination(e));
 	};
 
 	return (
-		<Pagination onChange={handleChange} current={current} total={total} />
+		<Pagination
+			onChange={handleChange}
+			current={currentPagination}
+			total={total}
+		/>
 	);
 };
 export default PaginationProduct;

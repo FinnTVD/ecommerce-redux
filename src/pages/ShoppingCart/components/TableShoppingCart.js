@@ -8,13 +8,20 @@ import {
 	setIsDelete,
 	setSelectedRowKeys,
 } from "../../../store/ShoppingCartSlice";
+import { customArray } from "../../../utils/global";
+import SkeletonCard from "../../Products/components/SkeletonCard";
 import PopConfirmDelete from "./PopConfirmDelete";
 
 const TableShoppingCart = () => {
 	const [current, setCurrent] = useState(1);
 	const dispatch = useDispatch();
-	const { shoppingCart, isDelete, selectedRowKeys, lengthShoppingCart } =
-		useSelector((state) => state.shoppingCart);
+	const {
+		shoppingCart,
+		isDelete,
+		isLoad,
+		selectedRowKeys,
+		lengthShoppingCart,
+	} = useSelector((state) => state.shoppingCart);
 
 	const handleChangePage = (e) => {
 		setCurrent(e);
@@ -23,7 +30,6 @@ const TableShoppingCart = () => {
 
 	useEffect(() => {
 		dispatch(getShoppingCart());
-		setCurrent(1);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete]);
 
@@ -115,17 +121,23 @@ const TableShoppingCart = () => {
 	];
 
 	return (
-		<Table
-			rowKey={(obj) => obj.id}
-			rowSelection={rowSelection}
-			columns={columns}
-			dataSource={shoppingCart}
-			pagination={{
-				total: Math.ceil(lengthShoppingCart / 5) * 10,
-				current,
-				onChange: handleChangePage,
-			}}
-		/>
+		<>
+			{isLoad ? (
+				customArray(5).map((e, index) => <SkeletonCard key={index} />)
+			) : (
+				<Table
+					rowKey={(obj) => obj.id}
+					rowSelection={rowSelection}
+					columns={columns}
+					dataSource={shoppingCart}
+					pagination={{
+						total: Math.ceil(lengthShoppingCart / 5) * 10,
+						current,
+						onChange: handleChangePage,
+					}}
+				/>
+			)}
+		</>
 	);
 };
 export default TableShoppingCart;

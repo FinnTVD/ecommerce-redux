@@ -6,7 +6,7 @@ const contentStyle = {
 	maxHeight: "180px",
 };
 const carouselArr = new Array(3).fill(0);
-const Slider = () => (
+const SliderProduct = () => (
 	<Carousel autoplay dots={{ className: "dotsSlider" }}>
 		{carouselArr.map((e, index) => (
 			<div key={index}>
@@ -26,4 +26,4 @@ const Slider = () => (
 		))}
 	</Carousel>
 );
-export default Slider;
+export default SliderProduct;

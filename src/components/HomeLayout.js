@@ -1,54 +1,35 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { fetchCategory, fetchProduct } from "../store/ProductSlice";
+import { fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
 import BadgeCard from "../pages/ShoppingCart/components/BadgeCard";
 import { setCartList } from "../store/ShoppingCartSlice";
+import { category } from "../utils/global";
 
 import { Breadcrumb, Col, Layout, Menu, Row, theme } from "antd";
-
 const { Header, Content } = Layout;
 
-const category = [
-	{
-		title: "Tất cả",
-		value: "",
-	},
-	{
-		title: "Điện thoại",
-		value: "smartphone",
-	},
-	{
-		title: "Laptop",
-		value: "laptop",
-	},
-	{
-		title: "Máy tính bảng",
-		value: "tablet",
-	},
-	{
-		title: "Âm thanh",
-		value: "sound",
-	},
-	{
-		title: "Đồng hồ",
-		value: "watch",
-	},
-];
-
 const HomeLayout = () => {
+	const [selectedKeys, setSelectedKeys] = useState(0);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
+
 	const { isAddSuccess, isDelete } = useSelector(
 		(state) => state.shoppingCart
 	);
 
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
+	const keyLocation = category.findIndex(
+		(e) => e.value === location.pathname.slice(1)
+	);
+
+	useEffect(() => {
+		setSelectedKeys(keyLocation);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		getCartList();
@@ -63,16 +44,12 @@ const HomeLayout = () => {
 		dispatch(setCartList(data));
 	};
 
-	const handleChangeCategory = async (e) => {
-		try {
-			if (e.key == 0) {
-				dispatch(fetchProduct());
-			} else {
-				dispatch(fetchCategory(category[e.key].value));
-			}
+	const handleChangeCategory = (e) => {
+		setSelectedKeys(e.key);
+		if (e.key == 0) {
 			navigate("/");
-		} catch (error) {
-			console.log(error);
+		} else {
+			navigate(`/${category[e.key].value}`);
 		}
 	};
 
@@ -84,6 +61,9 @@ const HomeLayout = () => {
 		navigate("/");
 		dispatch(fetchProduct());
 	};
+	const {
+		token: { colorBgContainer },
+	} = theme.useToken();
 
 	return (
 		<Layout className="layout">
@@ -116,7 +96,7 @@ const HomeLayout = () => {
 								onClick={handleChangeCategory}
 								theme="dark"
 								mode="horizontal"
-								defaultSelectedKeys={["0"]}
+								selectedKeys={[`${selectedKeys}`]}
 								items={category.map((e, index) => {
 									const key = index;
 									return {

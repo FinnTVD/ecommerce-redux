@@ -11,6 +11,7 @@ const ShoppingCartSlice = createSlice({
 		selectedRowKeys: [],
 		cartList: [],
 		lengthShoppingCart: 0,
+		isLoad: true,
 	},
 	reducers: {
 		setLengthShoppingCart: (state, action) => {
@@ -33,8 +34,16 @@ const ShoppingCartSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(getShoppingCart.pending, (state, action) => {
+			state.isLoad = true;
+		});
 		builder.addCase(getShoppingCart.fulfilled, (state, action) => {
 			state.shoppingCart = action.payload;
+			state.isLoad = false;
+		});
+		builder.addCase(getShoppingCart.rejected, (state, action) => {
+			state.isLoad = false;
+			console.log("rejected");
 		});
 	},
 });

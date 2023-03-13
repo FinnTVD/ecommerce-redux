@@ -8,10 +8,14 @@ const ProductSlice = createSlice({
 		listProduct: [],
 		isLoading: true,
 		totalPagination: 0,
+		currentPagination: 1,
 	},
 	reducers: {
 		setListProduct: (state, action) => {
 			state.listProduct = action.payload;
+		},
+		setCurrentPagination: (state, action) => {
+			state.currentPagination = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -55,12 +59,11 @@ export const fetchProduct = createAsyncThunk(
 
 export const getTotalPagination = createAsyncThunk(
 	"getTotalPagination",
-	async () => {
+	async (category) => {
 		const res = await axios.get(
-			"https://api-ecommerce-redux.vercel.app/listProduct"
+			`https://api-ecommerce-redux.vercel.app/listProduct?${category}`
 		);
-		const total = (await Math.ceil(res.data.length / 10)) * 10;
-		return total;
+		return Math.ceil(res.data.length / 10) * 10;
 	}
 );
 
@@ -74,6 +77,6 @@ export const fetchCategory = createAsyncThunk(
 	}
 );
 
-export const { setListProduct } = ProductSlice.actions;
+export const { setListProduct, setCurrentPagination } = ProductSlice.actions;
 
 export default ProductSlice.reducer;

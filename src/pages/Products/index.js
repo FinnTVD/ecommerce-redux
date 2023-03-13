@@ -5,8 +5,7 @@ import { fetchProduct, getTotalPagination } from "../../store/ProductSlice";
 import SkeletonCard from "./components/SkeletonCard";
 import PaginationProduct from "./components/Pagination";
 import SliderProduct from "./components/SliderProduct";
-
-const arrSkeleton = new Array(6).fill(0);
+import { customArray } from "../../utils/global";
 
 const ProductPage = () => {
 	const { listProduct, isLoading, totalPagination } = useSelector(
@@ -23,26 +22,30 @@ const ProductPage = () => {
 
 	return (
 		<>
-			{isLoading &&
-				arrSkeleton.map((e, index) => <SkeletonCard key={index} />)}
-			<div className="mb-10">
-				<SliderProduct />
-			</div>
-			<div className="grid grid-cols-5 gap-x-6 gap-y-10 card-product">
-				{listProduct.length > 0 &&
-					listProduct
-						.slice(0, 10)
-						.map((e) => (
-							<CardProduct
-								key={e.id}
-								item={e}
-								className="card-product"
-							></CardProduct>
-						))}
-			</div>
-			<div className="mt-10 text-center">
-				<PaginationProduct total={totalPagination} />
-			</div>
+			{isLoading ? (
+				customArray(6).map((e, index) => <SkeletonCard key={index} />)
+			) : (
+				<>
+					<div className="mb-10">
+						<SliderProduct />
+					</div>
+					<div className="grid grid-cols-5 gap-x-6 gap-y-10 card-product">
+						{listProduct.length > 0 &&
+							listProduct
+								.slice(0, 10)
+								.map((e) => (
+									<CardProduct
+										key={e.id}
+										item={e}
+										className="card-product"
+									></CardProduct>
+								))}
+					</div>
+					<div className="mt-10 text-center">
+						<PaginationProduct total={totalPagination} />
+					</div>
+				</>
+			)}
 		</>
 	);
 };
