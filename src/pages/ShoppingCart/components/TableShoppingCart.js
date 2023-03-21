@@ -8,12 +8,13 @@ import {
 	setIsDelete,
 	setSelectedRowKeys,
 } from "../../../store/ShoppingCartSlice";
-import { customArray } from "../../../utils/global";
+import { customArray, urlApi } from "../../../utils/global";
 import SkeletonCard from "../../Products/components/SkeletonCard";
 import PopConfirmDelete from "./PopConfirmDelete";
 
 const TableShoppingCart = () => {
 	const [current, setCurrent] = useState(1);
+	const [selected, setSelected] = useState([]);
 	const dispatch = useDispatch();
 	const {
 		shoppingCart,
@@ -29,41 +30,41 @@ const TableShoppingCart = () => {
 	};
 
 	useEffect(() => {
+		if (selectedRowKeys.length > 0) {
+			let a = [];
+			selectedRowKeys.forEach((e) => a.push(e.id));
+			setSelected(a);
+		}
 		dispatch(getShoppingCart());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete]);
 
-	const onSelectChange = (newSelectedRowKeys) => {
-		dispatch(setSelectedRowKeys(newSelectedRowKeys));
+	const onSelectChange = (newSelected, selectedRowKeys) => {
+		setSelected(newSelected);
+		dispatch(setSelectedRowKeys(selectedRowKeys));
 	};
 
 	const rowSelection = {
-		selectedRowKeys,
+		selectedRowKeys: selected,
 		onChange: onSelectChange,
 		selections: [Table.SELECTION_ALL, Table.SELECTION_NONE],
 	};
 
 	const handleDeleteProduct = async (id) => {
-		try {
-			await axios.delete(
-				`https://api-ecommerce-redux.vercel.app/shoppingCart/${id}`
-			);
-			dispatch(
-				dispatch(
-					setSelectedRowKeys(selectedRowKeys.filter((e) => e != id))
-				)
-			);
-			dispatch(setIsDelete(!isDelete));
-		} catch (error) {
-			console.log(error);
-		}
+		await axios.delete(`${urlApi}/shoppingCart/${id}`);
+		dispatch(setSelectedRowKeys(selectedRowKeys.filter((e) => e != id)));
+		dispatch(setIsDelete(!isDelete));
 	};
 
 	const columns = [
 		{
-			title: <p className="">Tên sản phẩm</p>,
+			title: <p>Tên sản phẩm</p>,
 			dataIndex: "name",
-			render: (text, { id }) => <Link to={`/product/${id}`}>{text}</Link>,
+			render: (text, { id }) => (
+				<Link className="flex justify-start" to={`/product/${id}`}>
+					{text}
+				</Link>
+			),
 		},
 		{
 			title: <p className="text-center">Hình ảnh</p>,
@@ -109,7 +110,7 @@ const TableShoppingCart = () => {
 			render: (_, record) => (
 				<Space size="middle">
 					<PopConfirmDelete
-						onClick={() => handleDeleteProduct(record.id)}
+						deleteProduct={() => handleDeleteProduct(record.id)}
 					>
 						<Button type="primary" danger>
 							Delete

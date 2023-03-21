@@ -54,7 +54,7 @@ const content = (cartList, navigate, dispatch) => {
 								<div className="flex ">
 									<img
 										className="object-contain w-10 h-10 mr-3"
-										src={e.option[0].image}
+										src={e.option[0]?.image}
 										alt={e.name}
 									/>
 									<span
@@ -73,7 +73,7 @@ const content = (cartList, navigate, dispatch) => {
 							</div>
 						);
 					})}
-					<div className="flex justify-between items-center gap-x-10">
+					<div className="flex items-center justify-between gap-x-10">
 						<span>
 							{fiveAddNewProduct.length} sản phẩm được thêm vào
 							gần đây nhất

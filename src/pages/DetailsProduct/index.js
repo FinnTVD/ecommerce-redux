@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -7,23 +7,23 @@ import { Col, Image, Row, Rate, message } from "antd";
 
 import { setIsAddSuccess } from "../../store/ShoppingCartSlice";
 import SkeletonCard from "../Products/components/SkeletonCard";
+import useToken from "../../hooks/useToken";
+import { urlApi } from "../../utils/global";
 
 const DetailsProduct = () => {
 	const { id } = useParams();
 	const [item, setItem] = useState([]);
-	const [version, setVersion] = useState({
-		image: "",
-		color: "",
-	});
-
+	const navigate = useNavigate();
+	const isToken = useToken();
+	console.log("🚀 ~ file: index.js:17 ~ DetailsProduct ~ isToken:", isToken);
 	const { shoppingCart, isAddSuccess, idParam } = useSelector(
 		(state) => state.shoppingCart
 	);
-
 	const dispatch = useDispatch();
 
 	const [messageApi, contextHolder] = message.useMessage();
 	const key = "addProductCart";
+
 	const openMessage = () => {
 		messageApi.open({
 			key,
@@ -41,36 +41,27 @@ const DetailsProduct = () => {
 	};
 
 	useEffect(() => {
-		if (item.length > 0)
-			setVersion({ image: item[0].image, color: item[0].color });
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	useEffect(() => {
-		axios
-			.get("https://api-ecommerce-redux.vercel.app/listProduct")
-			.then((res) => {
-				setItem(res.data.filter((e) => e.id == id));
-			});
+		axios.get(`${urlApi}/listProduct`).then((res) => {
+			setItem(res.data.filter((e) => e.id == id));
+		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [idParam]);
 
-	const handleAddProduct = async () => {
+	const addProduct = async () => {
 		try {
 			if (
 				shoppingCart.length > 0 &&
 				shoppingCart.some((e) => e.id == id)
 			) {
 				const res = await axios.put(
-					`https://api-ecommerce-redux.vercel.app/shoppingCart/${id}`,
+					`${urlApi}/shoppingCart/${id}`,
 					item[0]
 				);
+				console.log("🚀 ~ file: index.js:61 ~ addProduct ~ res:", res);
 				res.status === 200 && dispatch(setIsAddSuccess(!isAddSuccess));
 			} else {
-				const res = await axios.post(
-					"https://api-ecommerce-redux.vercel.app/shoppingCart",
-					item[0]
-				);
+				const res = await axios.post(`${urlApi}/shoppingCart`, item[0]);
+				console.log("🚀 ~ file: index.js:69 ~ addProduct ~ res:", res);
 				res.status === 201 && dispatch(setIsAddSuccess(!isAddSuccess));
 			}
 			openMessage();
@@ -81,6 +72,12 @@ const DetailsProduct = () => {
 			);
 		}
 	};
+
+	const handleAddProduct = () => {
+		if (!isToken) return navigate("/sign-in");
+		addProduct();
+	};
+
 	if (item.length === 0) return <SkeletonCard />;
 	const { name, rating, option, description, sale, promote, listPrice } =
 		item[0];
@@ -89,8 +86,8 @@ const DetailsProduct = () => {
 		<>
 			{contextHolder}
 			<div className="max-w-[1200px] w-full mx-auto">
-				<div>
-					<h1>{name}</h1>
+				<div className="flex gap-x-10">
+					<h1 className="text-3xl font-bold">{name}</h1>
 					<Rate
 						style={{
 							display: "flex",
@@ -229,7 +226,7 @@ const DetailsProduct = () => {
 								</div>
 							</Col>
 						</Row>
-						<div className="flex gap-x-10">
+						<div className="flex gap-x-10 mt-8">
 							<div
 								onClick={handleAddProduct}
 								className="flex gap-x-3 bg-[#ffeee8] text-[#f06137] py-2 px-4 font-medium border border-[#f06137] rounded-sm cursor-pointer select-none hover:bg-[#f8f4f2]"

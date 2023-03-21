@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import CardProduct from "./components/CardProduct";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProduct, getTotalPagination } from "../../store/ProductSlice";
+import { fetchProduct } from "../../store/ProductSlice";
 import SkeletonCard from "./components/SkeletonCard";
 import PaginationProduct from "./components/Pagination";
 import SliderProduct from "./components/SliderProduct";
@@ -16,7 +16,6 @@ const ProductPage = () => {
 
 	useEffect(() => {
 		dispatch(fetchProduct());
-		dispatch(getTotalPagination());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

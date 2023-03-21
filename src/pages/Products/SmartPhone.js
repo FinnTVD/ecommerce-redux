@@ -20,7 +20,7 @@ const SmartPhone = () => {
 
 	useEffect(() => {
 		dispatch(fetchCategory(location.pathname.slice(1)));
-		dispatch(getTotalPagination(`category=${location.pathname.slice(1)}`));
+		// dispatch(getTotalPagination(`category=${location.pathname.slice(1)}`));
 		currentPagination > 1 && dispatch(setCurrentPagination(1));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

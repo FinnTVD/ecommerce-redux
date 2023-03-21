@@ -1,14 +1,12 @@
 import { message, Popconfirm } from "antd";
 
-const cancel = (e) => {
-	console.log(e);
+const cancel = () => {
 	message.error("Click on No");
 };
-const PopConfirmDelete = ({ children, onClick }) => {
-	const confirm = (e) => {
-		console.log(e);
+const PopConfirmDelete = ({ children, deleteProduct }) => {
+	const confirm = () => {
 		message.success("Click on Yes");
-		onClick();
+		deleteProduct();
 	};
 
 	return (

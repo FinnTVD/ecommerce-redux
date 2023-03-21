@@ -22,7 +22,7 @@ const Tablet = () => {
 
 	useEffect(() => {
 		dispatch(fetchCategory(param.pathname.slice(1)));
-		dispatch(getTotalPagination(`category=${param.pathname.slice(1)}`));
+		// dispatch(getTotalPagination(`category=${param.pathname.slice(1)}`));
 		currentPagination > 1 && dispatch(setCurrentPagination(1));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

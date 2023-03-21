@@ -1,11 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import {
-	fetchCategory,
-	getTotalPagination,
-	setCurrentPagination,
-} from "../../store/ProductSlice";
+import { fetchCategory, setCurrentPagination } from "../../store/ProductSlice";
 import { customArray } from "../../utils/global";
 import CardProduct from "./components/CardProduct";
 import PaginationProduct from "./components/Pagination";
@@ -22,7 +18,7 @@ const Sound = () => {
 
 	useEffect(() => {
 		dispatch(fetchCategory(param.pathname.slice(1)));
-		dispatch(getTotalPagination(`category=${param.pathname.slice(1)}`));
+		// dispatch(getTotalPagination(`category=${param.pathname.slice(1)}`));
 		currentPagination > 1 && dispatch(setCurrentPagination(1));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

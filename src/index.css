@@ -66,3 +66,45 @@ input {
     transform: scaley(2.4);
     border-radius: 6px;
 }
+
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Thiết lập màu nền xám cho Track (Thanh Tiến Trình)*/
+.custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* chọn màu nền xanh cho thumb */
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: DodgerBlue;
+    border-radius: 10px;
+}
+
+/* tao hiều ứng thay đổi màu nền đỏ khi hover */
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: Tomato;
+}
+
+.address-user{
+    background-image: repeating-linear-gradient(45deg,#6fa6d6,#6fa6d6 33px,transparent 0,transparent 41px,#f18d9b 0,#f18d9b 74px,transparent 0,transparent 82px);
+    height: 3px;
+    width: 100%;
+}
+
+.ant-table-cell + .ant-table-cell{
+    text-align: center;
+}
+
+.address-input::before{
+    content: "";
+    position: absolute;
+    height: 42px;
+    left: 0;
+    right: 0;
+    top: 1px;
+    bottom: 0;
+    background-color: transparent;
+    z-index: 10;
+}

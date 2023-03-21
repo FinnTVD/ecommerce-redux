@@ -7,16 +7,23 @@ import { fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
 import BadgeCard from "../pages/ShoppingCart/components/BadgeCard";
 import { setCartList } from "../store/ShoppingCartSlice";
-import { category } from "../utils/global";
+import { category, urlApi } from "../utils/global";
 
-import { Breadcrumb, Col, Layout, Menu, Row, theme } from "antd";
+import { Col, Layout, Menu, Row, theme } from "antd";
+import AvatarUser from "./AvatarUser";
+import useToken from "../hooks/useToken";
+import DarkMode from "./DarkMode";
+import useDarkMode from "../hooks/useDarkMode";
+import { setUser } from "../store/UserSlice";
 const { Header, Content } = Layout;
 
 const HomeLayout = () => {
+	const [darkMode] = useDarkMode();
 	const [selectedKeys, setSelectedKeys] = useState(0);
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const location = useLocation();
+	const isToken = useToken();
 
 	const { isAddSuccess, isDelete } = useSelector(
 		(state) => state.shoppingCart
@@ -28,25 +35,26 @@ const HomeLayout = () => {
 
 	useEffect(() => {
 		setSelectedKeys(keyLocation);
+		const { user } = JSON.parse(localStorage.getItem("token"));
+		dispatch(setUser(user));
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		getCartList();
+		isToken && getCartList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete, isAddSuccess]);
 
 	const getCartList = async (page) => {
-		const res = await axios.get(
-			"https://api-ecommerce-redux.vercel.app/shoppingCart"
-		);
+		const res = await axios.get(`${urlApi}/shoppingCart`);
 		const data = await res.data;
 		dispatch(setCartList(data));
 	};
 
 	const handleChangeCategory = (e) => {
 		setSelectedKeys(e.key);
-		if (e.key == 0) {
+		if (Number(e.key) === 0) {
 			navigate("/");
 		} else {
 			navigate(`/${category[e.key].value}`);
@@ -54,6 +62,7 @@ const HomeLayout = () => {
 	};
 
 	const handleClickCard = () => {
+		if (!isToken) return navigate("/sign-in");
 		navigate("/shopping-cart");
 	};
 
@@ -66,8 +75,8 @@ const HomeLayout = () => {
 	} = theme.useToken();
 
 	return (
-		<Layout className="layout">
-			<Header className="fixed inset-0 z-50 flex justify-between w-full">
+		<Layout className="layout dark:bg-[#0f172a]">
+			<Header className="fixed inset-0 z-50 flex justify-between w-full dark:bg-[#0f172a]">
 				<Row style={{ width: "100%" }}>
 					<Col span={16}>
 						<div className="flex">
@@ -108,6 +117,7 @@ const HomeLayout = () => {
 						</div>
 					</Col>
 					<Col span={8} className="flex items-center justify-end">
+						<DarkMode />
 						<BadgeCard>
 							<PopoverCard>
 								<svg
@@ -127,6 +137,7 @@ const HomeLayout = () => {
 								</svg>
 							</PopoverCard>
 						</BadgeCard>
+						{isToken && <AvatarUser />}
 					</Col>
 				</Row>
 			</Header>
@@ -135,17 +146,11 @@ const HomeLayout = () => {
 					padding: "0 50px",
 				}}
 			>
-				<Breadcrumb
-					style={{
-						margin: "16px 0",
-					}}
-				>
-					<Breadcrumb.Item>Home</Breadcrumb.Item>
-				</Breadcrumb>
+				<div className="mt-20"></div>
 				<div
-					className="site-layout-content"
+					className="site-layout-content dark:bg-[#0f172a]"
 					style={{
-						background: colorBgContainer,
+						background: !darkMode && colorBgContainer,
 					}}
 				>
 					<Outlet />

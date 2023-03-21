@@ -28,3 +28,7 @@ export const category = [
 export const customArray = (length) => {
 	return new Array(length).fill(0);
 };
+
+export const urlApi = "http://localhost:3000";
+export const portAuth = "http://localhost:3002";
+export const urlApiShoppingCart = `${urlApi}/shoppingCart/`;

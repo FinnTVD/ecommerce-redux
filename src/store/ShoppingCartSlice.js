@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { urlApi } from "../utils/global";
 
 const ShoppingCartSlice = createSlice({
 	name: "shoppingcart",
@@ -53,10 +54,14 @@ const { reducer, actions } = ShoppingCartSlice;
 export const getShoppingCart = createAsyncThunk(
 	"getShoppingCart",
 	async (page = 1) => {
-		const res = await axios.get(
-			`https://api-ecommerce-redux.vercel.app/shoppingCart?_page=${page}&_limit=5`
-		);
-		return res.data;
+		try {
+			const res = await axios.get(
+				`${urlApi}/shoppingCart?_page=${page}&_limit=5`
+			);
+			return res.data;
+		} catch (error) {
+			return <div>server error</div>;
+		}
 	}
 );
 

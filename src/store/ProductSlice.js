@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { urlApi } from "../utils/global";
 
 const ProductSlice = createSlice({
 	name: "product",
@@ -23,7 +24,8 @@ const ProductSlice = createSlice({
 			state.isLoading = true;
 		});
 		builder.addCase(fetchProduct.fulfilled, (state, action) => {
-			state.listProduct = action.payload;
+			state.listProduct = action.payload.data;
+			state.totalPagination = action.payload.length;
 			state.isLoading = false;
 		});
 		builder.addCase(fetchProduct.rejected, (state, action) => {
@@ -35,14 +37,12 @@ const ProductSlice = createSlice({
 		});
 		builder.addCase(fetchCategory.fulfilled, (state, action) => {
 			state.listProduct = action.payload;
+			state.totalPagination = action.payload.length;
 			state.isLoading = false;
 		});
 		builder.addCase(fetchCategory.rejected, (state, action) => {
 			state.isLoading = false;
 			console.log("reject");
-		});
-		builder.addCase(getTotalPagination.fulfilled, (state, action) => {
-			state.totalPagination = action.payload;
 		});
 	},
 });
@@ -51,19 +51,13 @@ export const fetchProduct = createAsyncThunk(
 	"fetchProduct",
 	async (page = 1) => {
 		const response = await axios.get(
-			`https://api-ecommerce-redux.vercel.app/listProduct?_page=${page}&_limit=10`
+			`${urlApi}/listProduct?_page=${page}&_limit=10`
 		);
-		return response.data;
-	}
-);
-
-export const getTotalPagination = createAsyncThunk(
-	"getTotalPagination",
-	async (category) => {
-		const res = await axios.get(
-			`https://api-ecommerce-redux.vercel.app/listProduct?${category}`
-		);
-		return Math.ceil(res.data.length / 10) * 10;
+		const res = await axios.get(`${urlApi}/listProduct`);
+		return {
+			data: response.data,
+			length: res.data.length,
+		};
 	}
 );
 
@@ -71,7 +65,7 @@ export const fetchCategory = createAsyncThunk(
 	"fetchCategory",
 	async (category) => {
 		const response = await axios.get(
-			`https://api-ecommerce-redux.vercel.app/listProduct?category=${category}`
+			`${urlApi}/listProduct?category=${category}`
 		);
 		return response.data;
 	}

@@ -1,5 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
+import ConfirmPay from "./pages/PayProduct/ConfirmPay";
+import PaySuccess from "./vnpay/PaySuccess";
 
 // import AddProduct from "./pages/Admin/Pages/AddProduct";
 // import AdminProduct from "./pages/Admin/Pages/AdminProduct";
@@ -10,7 +14,7 @@ import { Routes, Route } from "react-router-dom";
 const HomeLayout = lazy(() => import("./components/HomeLayout"));
 const DetailsProduct = lazy(() => import("./pages/DetailsProduct"));
 const ShoppingCart = lazy(() => import("./pages/ShoppingCart"));
-const ProductPage = lazy(() => import("./pages/Products/index"));
+const ProductPage = lazy(() => import("./pages/Products"));
 const SmartPhone = lazy(() => import("./pages/Products/SmartPhone"));
 const Laptop = lazy(() => import("./pages/Products/Laptop"));
 const Tablet = lazy(() => import("./pages/Products/Tablet"));
@@ -32,6 +36,9 @@ function App() {
 						</Route>
 						<Route path="users" element={<ListUser />}></Route>
 					</Route> */}
+					<Route path="sign-in" element={<SignIn />} />
+					<Route path="sign-up" element={<SignUp />} />
+					<Route path="pay-success" element={<PaySuccess />} />
 					<Route path="/" element={<HomeLayout />}>
 						<Route index element={<ProductPage />} />
 						<Route path="smartphone" element={<SmartPhone />} />
@@ -44,9 +51,10 @@ function App() {
 							element={<DetailsProduct />}
 						/>
 						<Route
-							path="shopping-cart"
+							path="shopping-cart/"
 							element={<ShoppingCart />}
 						/>
+						<Route path="confirm-pay" element={<ConfirmPay />} />
 					</Route>
 					<Route
 						path="*"
