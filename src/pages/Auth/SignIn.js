@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import styles from "./signIn.module.css";
 import { portAuth } from "../../utils/global";
@@ -9,12 +10,18 @@ import useNotificationAuth from "../../hooks/useNotificationAuth";
 
 const SignIn = () => {
 	const navigate = useNavigate();
+	const { state } = useLocation();
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 
 	const onFinish = async (values) => {
 		try {
 			const res = await axios.post(`${portAuth}/api/auth/login`, values);
-			localStorage.setItem("token", JSON.stringify(res.data));
+			Cookies.set("token", JSON.stringify(res.data), {
+				expires: 1,
+				path: "",
+				// secure: true,
+				// httpOnly: true,
+			});
 			res.status === 200 && navigate("/");
 		} catch (error) {
 			openNotificationWithIcon(
@@ -32,9 +39,10 @@ const SignIn = () => {
 		<div className="flex justify-between">
 			{contextHolder}
 			<img
-				src="https://a-static.besthdwallpaper.com/samurai-girl-guerrier-fond-d-ecran-640x1136-18034_163.jpg"
+				// src="https://a-static.besthdwallpaper.com/samurai-girl-guerrier-fond-d-ecran-640x1136-18034_163.jpg"
+				src="https://images.pixai.art/images/orig/903fc1e6-4edf-44ea-ad92-1e209820acee"
 				alt=""
-				className="object-cover w-full h-screen basis-1/2"
+				className="object-cover w-1/2 h-screen"
 			/>
 			<div className="relative flex flex-col items-center justify-between w-full dark:bg-[#0f172a]">
 				<Form
@@ -47,6 +55,8 @@ const SignIn = () => {
 					}}
 					className="absolute top-1/4 max-w-[600px] z-50"
 					initialValues={{
+						email: state?.email || "",
+						password: state?.password || "",
 						remember: true,
 					}}
 					onFinish={onFinish}
@@ -63,10 +73,14 @@ const SignIn = () => {
 							},
 						]}
 					>
-						<Input type="email" />
+						<Input
+							type="email"
+							autoFocus
+							// defaultValue={`${location.email || ""}`}
+						/>
 					</Form.Item>
 					<Form.Item
-						label="Password"
+						label="Mật khẩu"
 						name="password"
 						rules={[
 							{
@@ -75,7 +89,9 @@ const SignIn = () => {
 							},
 						]}
 					>
-						<Input.Password />
+						<Input.Password
+						// defaultValue={`${location.password || ""}`}
+						/>
 					</Form.Item>
 
 					<Form.Item

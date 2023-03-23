@@ -48,7 +48,7 @@ const ShoppingCart = () => {
 	return (
 		<>
 			<TableShoppingCart />
-			<div className="flex items-center justify-end text-lg font-bold gap-x-3">
+			<div className="flex items-center justify-end text-lg font-bold gap-x-3 mb-10">
 				<span>
 					Tổng thanh toán ({selectedRowKeys.length} Sản phẩm):
 				</span>

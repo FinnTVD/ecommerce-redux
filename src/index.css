@@ -10,7 +10,7 @@
 
 
 input {
-    outline: auto;
+    outline: none;
 }
 
 #components-layout-demo-custom-trigger .trigger {

@@ -1,8 +1,10 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Drawer, Popover } from "antd";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
+
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Button, Drawer } from "antd";
 
 const AvatarUser = () => {
 	const navigate = useNavigate();
@@ -10,7 +12,7 @@ const AvatarUser = () => {
 	const { user } = useSelector((state) => state.user);
 
 	const handleSignOut = () => {
-		localStorage.removeItem("token");
+		Cookies.remove("token", { path: "" });
 		navigate("/sign-in");
 	};
 

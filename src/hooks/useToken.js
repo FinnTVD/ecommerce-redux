@@ -1,5 +1,7 @@
+import Cookies from "js-cookie";
+
 const useToken = () => {
-	return !!localStorage.getItem("token");
+	return !!Cookies.get("token");
 };
 
 export default useToken;

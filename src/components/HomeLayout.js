@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import { fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
@@ -35,9 +36,11 @@ const HomeLayout = () => {
 
 	useEffect(() => {
 		setSelectedKeys(keyLocation);
-		const { user } = JSON.parse(localStorage.getItem("token"));
-		dispatch(setUser(user));
-
+		const token = Cookies.get("token");
+		if (token) {
+			const user = JSON.parse(token);
+			checkToken(user);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -45,6 +48,17 @@ const HomeLayout = () => {
 		isToken && getCartList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete, isAddSuccess]);
+
+	const checkToken = async (user) => {
+		try {
+			const res = await axios.get("http://localhost:3002/api/users", {
+				headers: { "auth-token": `${user.token}` },
+			});
+			res.status === 200 && dispatch(setUser(user.user));
+		} catch (err) {
+			localStorage.removeItem("token");
+		}
+	};
 
 	const getCartList = async (page) => {
 		const res = await axios.get(`${urlApi}/shoppingCart`);
@@ -146,7 +160,7 @@ const HomeLayout = () => {
 					padding: "0 50px",
 				}}
 			>
-				<div className="mt-20"></div>
+				<div className="h-20 dark:bg-[#0f172a]"></div>
 				<div
 					className="site-layout-content dark:bg-[#0f172a]"
 					style={{

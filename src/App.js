@@ -26,16 +26,6 @@ function App() {
 		<div className="App">
 			<Suspense fallback={<></>}>
 				<Routes>
-					{/* <Route path="/" element={<Admin />}>
-						<Route element={<AdminProduct />}>
-							<Route index element={<ListProduct />}></Route>
-							<Route
-								path="add-product"
-								element={<AddProduct />}
-							></Route>
-						</Route>
-						<Route path="users" element={<ListUser />}></Route>
-					</Route> */}
 					<Route path="sign-in" element={<SignIn />} />
 					<Route path="sign-up" element={<SignUp />} />
 					<Route path="pay-success" element={<PaySuccess />} />
