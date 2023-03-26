@@ -1,5 +1,4 @@
 import { Button, Form, Input } from "antd";
-// import "./rainning";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useNotificationAuth from "../../hooks/useNotificationAuth";
@@ -10,11 +9,10 @@ const SignUp = () => {
 	const navigate = useNavigate();
 	const onFinish = async (values) => {
 		try {
-			const res = await axios.post(
-				`${portAuth}/api/auth/register`,
-				values
-			);
-			res.status === 200 &&
+			const res = await axios.post(`${portAuth}/auth/register`, {
+				...values,
+			});
+			res.status === 201 &&
 				openNotificationWithIcon(
 					"success",
 					"Đăng ký tài khoản thành công!"
@@ -23,7 +21,7 @@ const SignUp = () => {
 				navigate("/sign-in", { state: values });
 			}, 1500);
 		} catch ({ response }) {
-			response.status === 422 &&
+			response.status === 409 &&
 				openNotificationWithIcon(
 					"error",
 					"Email đã tồn tại, vui lòng sử dụng email khác và thử lại!"
@@ -67,7 +65,7 @@ const SignUp = () => {
 				</p>
 				<div className="h-[100px]"></div>
 			</div>
-			<div className="flex items-center  justify-center w-[calc(65%-80px)] bg-white absolute h-4/5 top-1/2 right-0 -translate-y-1/2 before:content-[''] before:absolute before:bg-white before:w-[80px] before:h-full before:z-50 before:top-0 before:-left-[79px] before:rounded-l-[50%]">
+			<div className="flex items-center  justify-center w-[calc(65%-80px)] bg-white dark:bg-[#0f172a] absolute h-4/5 top-1/2 right-0 -translate-y-1/2 before:content-[''] before:absolute before:bg-white before:dark:bg-[#0f172a] before:w-[80px] before:h-full before:z-50 before:top-0 before:-left-[79px] before:rounded-l-[50%]">
 				<Form
 					name="basic"
 					labelCol={{
@@ -129,7 +127,9 @@ const SignUp = () => {
 								message: "Vui lòng điền vào mục này!",
 							},
 							{
-								pattern: new RegExp(/^[a-zA-Z0-9]{6,20}$/),
+								pattern: new RegExp(
+									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
+								),
 								message:
 									"Vui lòng đặt mất khẩu phải có ít nhất 1 kí tự hoa, 1 kí tự thường, 1 số và có ít nhất 6 kí tự!",
 							},
@@ -147,7 +147,7 @@ const SignUp = () => {
 						<Button type="primary" htmlType="submit">
 							Đăng ký
 						</Button>
-						<p className="mt-3">
+						<p className="mt-3 dark:text-white">
 							Bạn đã có tài khoản, hãy bấm vào đây để
 							<span
 								className="text-[#1677ff] cursor-pointer"

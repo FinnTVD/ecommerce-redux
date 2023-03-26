@@ -61,6 +61,10 @@ input {
     padding: 0 24px 24px;
 }
 
+.cardProduct .ant-card-cover{
+    margin: 0;
+}
+
 .dotsSlider.slick-dots li.slick-active button {
     background: red !important; 
     transform: scaley(2.4);
@@ -108,3 +112,17 @@ input {
     background-color: transparent;
     z-index: 10;
 }
+
+.dark label,
+.dark .ant-drawer-close ,
+.dark .ant-drawer-title,
+.dark .ant-pagination-prev .anticon-left,
+.dark .ant-pagination-next .anticon-right,
+.dark .ant-pagination-item>a
+{
+    color: white !important;
+}
+.dark .ant-pagination-item.ant-pagination-item-active>a{
+    color: black !important;
+}
+

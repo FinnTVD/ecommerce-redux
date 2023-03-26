@@ -7,6 +7,7 @@ const SelectLocation = ({
 	value,
 	codeDisTrict,
 	codeWard,
+	setIsConnect,
 }) => {
 	const [provinces, setProvinces] = useState([]);
 	const [districts, setDisTricts] = useState([]);
@@ -14,6 +15,7 @@ const SelectLocation = ({
 
 	useEffect(() => {
 		getProvinces();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -25,27 +27,43 @@ const SelectLocation = ({
 	}, [codeWard]);
 
 	const getProvinces = async () => {
-		const res = await axios.get("https://provinces.open-api.vn/api/p");
-		const data = res.data;
-		setProvinces(data);
+		try {
+			const res = await axios.get("https://provinces.open-api.vn/api/p");
+			const data = res.data;
+			setProvinces(data);
+		} catch (error) {
+			setIsConnect(true);
+			console.log("getProvinces/selecyions.js:", error);
+		}
 	};
 
 	const getDisTricts = async (codeDisTrict) => {
-		const res = await axios.get("https://provinces.open-api.vn/api/d");
-		const data = res.data;
-		const dataNew = data.filter((e) => e.province_code === codeDisTrict);
-		setDisTricts(dataNew);
+		try {
+			const res = await axios.get("https://provinces.open-api.vn/api/d");
+			const data = res.data;
+			const dataNew = data.filter(
+				(e) => e.province_code === codeDisTrict
+			);
+			setDisTricts(dataNew);
+		} catch (error) {
+			console.log("getDisTricts/selecyions.js:", error);
+		}
 	};
 
 	const getWards = async (codeWard) => {
-		const res = await axios.get("https://provinces.open-api.vn/api/w");
-		const data = res.data;
-		const dataNew = data.filter((e) => e.district_code === codeWard);
-		setWards(dataNew);
+		try {
+			const res = await axios.get("https://provinces.open-api.vn/api/w");
+			const data = res.data;
+			const dataNew = data.filter((e) => e.district_code === codeWard);
+			setWards(dataNew);
+		} catch (error) {
+			console.log("getWards/selecyions.js:", error);
+		}
 	};
 
 	return (
 		<div className="border border-gray-300 rounded-[4px] max-h-250px h-[250px] overflow-hidden mt-4">
+			{" "}
 			<Row>
 				<Col span={8}>
 					<button

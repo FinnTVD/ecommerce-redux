@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PayProduct from "../PayProduct/PayProduct";
+import AddressUser from "../PayProduct/AddressUser";
 import TableShoppingCart from "./components/TableShoppingCart";
 
 const ShoppingCart = () => {
@@ -27,6 +27,7 @@ const ShoppingCart = () => {
 				infoUser,
 				totalBill,
 				length: selectedRowKeys.length,
+				selectedRowKeys,
 			},
 		});
 	};
@@ -49,7 +50,7 @@ const ShoppingCart = () => {
 		<>
 			<TableShoppingCart />
 			<div className="flex items-center justify-end text-lg font-bold gap-x-3 mb-10">
-				<span>
+				<span className="dark:text-white">
 					Tổng thanh toán ({selectedRowKeys.length} Sản phẩm):
 				</span>
 				<span className="text-[#d70018]">
@@ -65,7 +66,7 @@ const ShoppingCart = () => {
 				>
 					Mua hàng
 				</button>
-				<PayProduct
+				<AddressUser
 					isModalOpen={isModalOpen}
 					handleOk={handleOk}
 					handleCancel={handleCancel}

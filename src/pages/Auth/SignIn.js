@@ -1,28 +1,22 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 import styles from "./signIn.module.css";
-import { portAuth } from "../../utils/global";
 
 import { Button, Checkbox, Form, Input } from "antd";
 import useNotificationAuth from "../../hooks/useNotificationAuth";
+import { authLogin } from "../../store/auth/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
+	const dispatch = useDispatch();
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 
 	const onFinish = async (values) => {
 		try {
-			const res = await axios.post(`${portAuth}/api/auth/login`, values);
-			Cookies.set("token", JSON.stringify(res.data), {
-				expires: 1,
-				path: "",
-				// secure: true,
-				// httpOnly: true,
-			});
-			res.status === 200 && navigate("/");
+			dispatch(authLogin(values));
+			navigate("/");
 		} catch (error) {
 			openNotificationWithIcon(
 				"error",
@@ -101,6 +95,7 @@ const SignIn = () => {
 							offset: 8,
 							span: 16,
 						}}
+						className="mb-1"
 					>
 						<Checkbox>Nhớ mật khẩu</Checkbox>
 					</Form.Item>
@@ -114,7 +109,7 @@ const SignIn = () => {
 						<Button type="primary" htmlType="submit">
 							Đăng nhập
 						</Button>
-						<p>
+						<p className="mt-3 dark:text-white">
 							Nếu bạn chưa có tài khoản hãy bấm vào đây để
 							<Link className="text-[#1677ff]" to="/sign-up">
 								{" "}

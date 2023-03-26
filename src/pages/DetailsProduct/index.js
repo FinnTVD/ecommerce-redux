@@ -7,19 +7,17 @@ import { Col, Image, Row, Rate, message } from "antd";
 
 import { setIsAddSuccess } from "../../store/ShoppingCartSlice";
 import SkeletonCard from "../Products/components/SkeletonCard";
-import useToken from "../../hooks/useToken";
 import { urlApi } from "../../utils/global";
 
 const DetailsProduct = () => {
 	const { id } = useParams();
 	const [item, setItem] = useState([]);
 	const navigate = useNavigate();
-	const isToken = useToken();
-	console.log("🚀 ~ file: index.js:17 ~ DetailsProduct ~ isToken:", isToken);
+	const dispatch = useDispatch();
+	const { accessToken } = useSelector((state) => state.auth);
 	const { shoppingCart, isAddSuccess, idParam } = useSelector(
 		(state) => state.shoppingCart
 	);
-	const dispatch = useDispatch();
 
 	const [messageApi, contextHolder] = message.useMessage();
 	const key = "addProductCart";
@@ -74,7 +72,7 @@ const DetailsProduct = () => {
 	};
 
 	const handleAddProduct = () => {
-		if (!isToken) return navigate("/sign-in");
+		if (!accessToken) return navigate("/sign-in");
 		addProduct();
 	};
 
@@ -85,7 +83,7 @@ const DetailsProduct = () => {
 	return (
 		<>
 			{contextHolder}
-			<div className="max-w-[1200px] w-full mx-auto">
+			<div className="max-w-[1200px] w-full mx-auto h-screen dark:text-white">
 				<div className="flex gap-x-10">
 					<h1 className="text-3xl font-bold">{name}</h1>
 					<Rate

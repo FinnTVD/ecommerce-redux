@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
 
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Drawer } from "antd";
+import { saveToken } from "../utils/auth";
 
 const AvatarUser = () => {
 	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
-	const { user } = useSelector((state) => state.user);
+	const { user } = useSelector((state) => state.auth);
 
 	const handleSignOut = () => {
-		Cookies.remove("token", { path: "" });
+		saveToken();
 		navigate("/sign-in");
 	};
 
@@ -50,6 +50,7 @@ const AvatarUser = () => {
 				placement="right"
 				onClose={onClose}
 				open={open}
+				className="dark:bg-[#0f172a] dark:text-white"
 			>
 				<p>{user.name ?? ""}</p>
 				<p>Some contents...</p>

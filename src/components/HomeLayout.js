@@ -2,7 +2,6 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 import { fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
@@ -12,19 +11,17 @@ import { category, urlApi } from "../utils/global";
 
 import { Col, Layout, Menu, Row, theme } from "antd";
 import AvatarUser from "./AvatarUser";
-import useToken from "../hooks/useToken";
 import DarkMode from "./DarkMode";
 import useDarkMode from "../hooks/useDarkMode";
-import { setUser } from "../store/UserSlice";
 const { Header, Content } = Layout;
 
 const HomeLayout = () => {
 	const [darkMode] = useDarkMode();
 	const [selectedKeys, setSelectedKeys] = useState(0);
+	const { accessToken } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const isToken = useToken();
 
 	const { isAddSuccess, isDelete } = useSelector(
 		(state) => state.shoppingCart
@@ -36,29 +33,13 @@ const HomeLayout = () => {
 
 	useEffect(() => {
 		setSelectedKeys(keyLocation);
-		const token = Cookies.get("token");
-		if (token) {
-			const user = JSON.parse(token);
-			checkToken(user);
-		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		isToken && getCartList();
+		accessToken && getCartList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isDelete, isAddSuccess]);
-
-	const checkToken = async (user) => {
-		try {
-			const res = await axios.get("http://localhost:3002/api/users", {
-				headers: { "auth-token": `${user.token}` },
-			});
-			res.status === 200 && dispatch(setUser(user.user));
-		} catch (err) {
-			localStorage.removeItem("token");
-		}
-	};
+	}, [isDelete, isAddSuccess, accessToken]);
 
 	const getCartList = async (page) => {
 		const res = await axios.get(`${urlApi}/shoppingCart`);
@@ -76,7 +57,7 @@ const HomeLayout = () => {
 	};
 
 	const handleClickCard = () => {
-		if (!isToken) return navigate("/sign-in");
+		if (!accessToken) return navigate("/sign-in");
 		navigate("/shopping-cart");
 	};
 
@@ -130,7 +111,10 @@ const HomeLayout = () => {
 							/>
 						</div>
 					</Col>
-					<Col span={8} className="flex items-center justify-end">
+					<Col
+						span={8}
+						className="flex items-center justify-end gap-x-4"
+					>
 						<DarkMode />
 						<BadgeCard>
 							<PopoverCard>
@@ -151,7 +135,7 @@ const HomeLayout = () => {
 								</svg>
 							</PopoverCard>
 						</BadgeCard>
-						{isToken && <AvatarUser />}
+						{accessToken && <AvatarUser />}
 					</Col>
 				</Row>
 			</Header>

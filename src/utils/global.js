@@ -30,5 +30,6 @@ export const customArray = (length) => {
 };
 
 export const urlApi = "http://localhost:3000";
-export const portAuth = "http://localhost:3002";
+export const portAuth = "http://localhost:5000";
 export const urlApiShoppingCart = `${urlApi}/shoppingCart/`;
+export const cookie_domain = "localhost";

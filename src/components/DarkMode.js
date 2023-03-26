@@ -25,7 +25,7 @@ const DarkMode = ({ className }) => {
 						stroke="currentColor"
 						className={`${
 							darkMode ? "hidden" : ""
-						} absolute inset-0 top-0.5 text-white`}
+						} absolute inset-0 text-white`}
 					>
 						<path
 							strokeLinecap="round"
@@ -41,7 +41,7 @@ const DarkMode = ({ className }) => {
 						stroke="currentColor"
 						className={`${
 							darkMode ? "" : "hidden"
-						} absolute inset-0 top-0 text-white`}
+						} absolute inset-0 text-white`}
 					>
 						<path
 							strokeLinecap="round"

@@ -1,8 +1,11 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import ConfirmPay from "./pages/PayProduct/ConfirmPay";
+import { authRefreshToken, authUpdateUser } from "./store/auth/AuthSlice";
+import { getToken } from "./utils/auth";
 import PaySuccess from "./vnpay/PaySuccess";
 
 // import AddProduct from "./pages/Admin/Pages/AddProduct";
@@ -22,6 +25,29 @@ const Sound = lazy(() => import("./pages/Products/Sound"));
 const Watch = lazy(() => import("./pages/Products/Watch"));
 
 function App() {
+	const { user } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (user && user.id) {
+			const { access_token } = getToken();
+			dispatch(
+				authUpdateUser({
+					user: user,
+					accessToken: access_token,
+				})
+			);
+		} else {
+			const { refresh_token } = getToken();
+			if (refresh_token) {
+				dispatch(authRefreshToken(refresh_token));
+			} else {
+				dispatch(authUpdateUser({}));
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<div className="App">
 			<Suspense fallback={<></>}>

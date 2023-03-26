@@ -8,11 +8,12 @@ import { Modal } from "antd";
 
 const ConfirmPay = () => {
 	const { state = "" } = useLocation();
+	console.log("🚀 ~ file: ConfirmPay.js:11 ~ ConfirmPay ~ state:", state);
 	const navigate = useNavigate();
-	const { selectedRowKeys } = useSelector((state) => state.shoppingCart);
 
-	const mgd = selectedRowKeys.reduce((a, b) => a + "-" + b.id, "").slice(1);
-	console.log("🚀 ~ file: ConfirmPay.js:14 ~ ConfirmPay ~ mgd:", mgd);
+	const mgd = state?.selectedRowKeys
+		.reduce((a, b) => a + "-" + b.id, "")
+		.slice(1);
 
 	const handlePayBill = () => {
 		window.open(
@@ -63,9 +64,9 @@ const ConfirmPay = () => {
 						d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
 					/>
 				</svg>
-				<h1>Địa Chỉ Nhận Hàng</h1>
+				<h1 className="dark:text-[#53a6c5]">Địa Chỉ Nhận Hàng</h1>
 			</div>
-			<div className="flex items-center mb-10 text-lg gap-x-4">
+			<div className="flex items-center mb-10 text-lg gap-x-4 dark:text-white">
 				<span className="font-bold">
 					{state?.infoUser?.name} (+84){" "}
 					{state?.infoUser?.phone.slice(1)}
@@ -74,12 +75,12 @@ const ConfirmPay = () => {
 					{state?.infoUser?.detailAddress},{" "}
 					{state?.infoUser?.address.split(" - ").reverse().join(", ")}
 				</span>
-				<span className="border border-[#ee4d2d] text-[#ee4d2d]">
+				<span className="border border-[#ee4d2d] text-[#ee4d2d] dark:text-[#53a6c5] dark:border-blue-500">
 					Mặc định
 				</span>
 				<button>Thay đổi</button>
 			</div>
-			<TableProductPay />
+			<TableProductPay selectedRowKeys={state?.selectedRowKeys} />
 			<div className="flex items-center gap-x-3 justify-end h-[118px] border-b border-gray-300">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +96,9 @@ const ConfirmPay = () => {
 						d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
 					/>
 				</svg>
-				<span>Nhập mã giảm giá (nếu có): </span>
+				<span className="dark:text-white">
+					Nhập mã giảm giá (nếu có):{" "}
+				</span>
 				<input
 					type="text"
 					name="voucher"
@@ -103,9 +106,9 @@ const ConfirmPay = () => {
 					autoComplete="off"
 				/>
 			</div>
-			<div className="flex items-center justify-end text-lg font-bold gap-x-3 h-[118px]">
+			<div className="flex items-center justify-end text-lg font-bold gap-x-3 h-[118px] dark:text-white">
 				<span>Tổng thanh toán ({state?.length} Sản phẩm):</span>
-				<span className="text-[#d70018]">
+				<span className="text-[#FF4136] dark:text-[#53a6c5]">
 					{state?.totalBill.toLocaleString("vi", {
 						style: "currency",
 						currency: "VND",
@@ -113,7 +116,7 @@ const ConfirmPay = () => {
 				</span>
 				<button
 					onClick={handlePayBill}
-					className="bg-[#d70018] text-white font-semibold rounded-md px-6 py-1 select-none hover:bg-[#e15312]"
+					className="bg-[#FF4136] text-white font-semibold rounded-md px-6 py-1 select-none hover:bg-[#e15312] "
 				>
 					Đặt hàng
 				</button>

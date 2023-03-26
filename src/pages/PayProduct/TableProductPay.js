@@ -1,9 +1,7 @@
 import { Image, Table } from "antd";
-import { useSelector } from "react-redux";
 
-const TableProductPay = () => {
-	const { selectedRowKeys } = useSelector((state) => state.shoppingCart);
-
+const TableProductPay = ({ selectedRowKeys = [] }) => {
+	if (!selectedRowKeys.length) return;
 	const columns = [
 		{
 			title: <p>Tên sản phẩm</p>,

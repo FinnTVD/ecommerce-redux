@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-import {
-	fetchCategory,
-	getTotalPagination,
-	setCurrentPagination,
-} from "../../store/ProductSlice";
+import { fetchCategory, setCurrentPagination } from "../../store/ProductSlice";
 import { customArray } from "../../utils/global";
 import CardProduct from "./components/CardProduct";
 import PaginationProduct from "./components/Pagination";
