@@ -1,14 +1,17 @@
-import React from "react";
+import { memo } from "react";
 import useDarkMode from "../hooks/useDarkMode";
 
-const DarkMode = ({ className }) => {
+const DarkMode = () => {
 	const [darkMode, setDarkMode] = useDarkMode();
 
 	const handleChange = () => {
 		setDarkMode(!darkMode);
 	};
+
+	console.log("render dark-mode");
+
 	return (
-		<div className={className}>
+		<div>
 			<div className="relative flex items-center justify-center">
 				<input
 					id="darkBox"
@@ -55,4 +58,4 @@ const DarkMode = ({ className }) => {
 	);
 };
 
-export default DarkMode;
+export default memo(DarkMode);

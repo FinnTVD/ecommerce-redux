@@ -18,7 +18,7 @@ const CardProduct = ({ item }) => {
 				/>
 			}
 			actions={[
-				<div className="text-[#d70018] font-bold">
+				<div className="text-[#d70018] font-bold text-center">
 					{listPrice.toLocaleString("vi", {
 						style: "currency",
 						currency: "VND",

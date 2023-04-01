@@ -33,7 +33,6 @@ const SelectLocation = ({
 			setProvinces(data);
 		} catch (error) {
 			setIsConnect(true);
-			console.log("getProvinces/selecyions.js:", error);
 		}
 	};
 
@@ -45,9 +44,7 @@ const SelectLocation = ({
 				(e) => e.province_code === codeDisTrict
 			);
 			setDisTricts(dataNew);
-		} catch (error) {
-			console.log("getDisTricts/selecyions.js:", error);
-		}
+		} catch (error) {}
 	};
 
 	const getWards = async (codeWard) => {

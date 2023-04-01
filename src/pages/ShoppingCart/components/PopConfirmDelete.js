@@ -1,22 +1,18 @@
 import { message, Popconfirm } from "antd";
 
-const cancel = () => {
-	message.error("Click on No");
-};
 const PopConfirmDelete = ({ children, deleteProduct }) => {
 	const confirm = () => {
-		message.success("Click on Yes");
+		message.success("Bạn vừa xóa sản phẩm khỏi giỏ hàng.");
 		deleteProduct();
 	};
 
 	return (
 		<Popconfirm
-			placement="bottom"
-			title="Delete the product"
+			placement="top"
+			title="Xóa sản phẩm khỏi giỏ hàng"
 			onConfirm={confirm}
-			onCancel={cancel}
-			okText="Yes"
-			cancelText="No"
+			okText="Xóa"
+			cancelText="Trở về"
 		>
 			{children}
 		</Popconfirm>

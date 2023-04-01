@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressUser from "../PayProduct/AddressUser";
 import TableShoppingCart from "./components/TableShoppingCart";
+import { checkValueObjectEqualTrue } from "../../utils/global";
 
 const ShoppingCart = () => {
 	const { selectedRowKeys } = useSelector((state) => state.shoppingCart);
@@ -21,15 +22,16 @@ const ShoppingCart = () => {
 	};
 
 	const handleOk = () => {
-		setIsModalOpen(false);
-		navigate("/confirm-pay", {
-			state: {
-				infoUser,
-				totalBill,
-				length: selectedRowKeys.length,
-				selectedRowKeys,
-			},
-		});
+		// setIsModalOpen(false);
+		checkValueObjectEqualTrue(infoUser) &&
+			navigate("/confirm-pay", {
+				state: {
+					infoUser,
+					totalBill,
+					length: selectedRowKeys.length,
+					selectedRowKeys,
+				},
+			});
 	};
 
 	const handleCancel = () => {
@@ -39,17 +41,12 @@ const ShoppingCart = () => {
 	const handleBuyProduct = () => {
 		if (selectedRowKeys.length === 0) return;
 		showModal();
-		//
-		// window.open(
-		// 	`http://localhost:8888/order/create_payment_url?amount=${totalBill}`,
-		// 	"_blank"
-		// );
 	};
 
 	return (
 		<>
 			<TableShoppingCart />
-			<div className="flex items-center justify-end text-lg font-bold gap-x-3 mb-10">
+			<div className="flex items-center justify-end mb-10 text-lg font-bold gap-x-3">
 				<span className="dark:text-white">
 					Tổng thanh toán ({selectedRowKeys.length} Sản phẩm):
 				</span>

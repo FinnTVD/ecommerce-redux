@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
-import { cookie_domain } from "./global";
+import { cookie_domain, portAuth } from "./global";
+import axios from "axios";
 const accessTokenKey = "ecom_access_token";
 const refreshTokenKey = "ecom_refresh_token";
 const objCookies = {
@@ -24,4 +25,14 @@ export const getToken = () => {
 		access_token,
 		refresh_token,
 	};
+};
+
+export const requestAuthFetchMe = (token) => {
+	if (!token) return;
+	return axios.get(`${portAuth}/me`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	});
 };

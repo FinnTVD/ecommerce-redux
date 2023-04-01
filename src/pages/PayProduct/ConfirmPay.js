@@ -7,8 +7,7 @@ import TableProductPay from "./TableProductPay";
 import { Modal } from "antd";
 
 const ConfirmPay = () => {
-	const { state = "" } = useLocation();
-	console.log("🚀 ~ file: ConfirmPay.js:11 ~ ConfirmPay ~ state:", state);
+	const { state } = useLocation();
 	const navigate = useNavigate();
 
 	const mgd = state?.selectedRowKeys
@@ -16,6 +15,7 @@ const ConfirmPay = () => {
 		.slice(1);
 
 	const handlePayBill = () => {
+		if (!state) return;
 		window.open(
 			`http://localhost:8888/order/create_payment_url?amount=${state?.totalBill}&mgd=${mgd}`,
 			"_self"
@@ -116,7 +116,12 @@ const ConfirmPay = () => {
 				</span>
 				<button
 					onClick={handlePayBill}
-					className="bg-[#FF4136] text-white font-semibold rounded-md px-6 py-1 select-none hover:bg-[#e15312] "
+					disabled={!state}
+					className={`${
+						state
+							? "hover:bg-[#e15312]"
+							: "bg-gray-500 cursor-not-allowed"
+					} bg-[#FF4136] text-white font-semibold rounded-md px-6 py-1 select-none`}
 				>
 					Đặt hàng
 				</button>
@@ -127,3 +132,10 @@ const ConfirmPay = () => {
 };
 
 export default ConfirmPay;
+
+// Ngân hàng	NCB
+// Số thẻ	9704198526191432198
+// Tên chủ thẻ	NGUYEN VAN A
+// Ngày phát hành	07/15
+// Mật khẩu OTP	123456
+// https://sandbox.vnpayment.vn/merchantv2/

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { fetchProduct } from "../store/ProductSlice";
+import { fetchCategory, fetchProduct } from "../store/ProductSlice";
 import PopoverCard from "../pages/ShoppingCart/components/PopoverCard";
 import BadgeCard from "../pages/ShoppingCart/components/BadgeCard";
 import { setCartList } from "../store/ShoppingCartSlice";
@@ -13,6 +13,7 @@ import { Col, Layout, Menu, Row, theme } from "antd";
 import AvatarUser from "./AvatarUser";
 import DarkMode from "./DarkMode";
 import useDarkMode from "../hooks/useDarkMode";
+import useNotificationAuth from "../hooks/useNotificationAuth";
 const { Header, Content } = Layout;
 
 const HomeLayout = () => {
@@ -22,7 +23,7 @@ const HomeLayout = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const location = useLocation();
-
+	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const { isAddSuccess, isDelete } = useSelector(
 		(state) => state.shoppingCart
 	);
@@ -33,6 +34,9 @@ const HomeLayout = () => {
 
 	useEffect(() => {
 		setSelectedKeys(keyLocation);
+		if (location.state?.status === 200) {
+			openNotificationWithIcon("success", "Đăng nhập thành công!");
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -49,11 +53,7 @@ const HomeLayout = () => {
 
 	const handleChangeCategory = (e) => {
 		setSelectedKeys(e.key);
-		if (Number(e.key) === 0) {
-			navigate("/");
-		} else {
-			navigate(`/${category[e.key].value}`);
-		}
+		dispatch(fetchCategory(category[e.key].value));
 	};
 
 	const handleClickCard = () => {
@@ -63,14 +63,17 @@ const HomeLayout = () => {
 
 	const handleClickHome = () => {
 		navigate("/");
+		setSelectedKeys(-1);
 		dispatch(fetchProduct());
 	};
+
 	const {
 		token: { colorBgContainer },
 	} = theme.useToken();
 
 	return (
 		<Layout className="layout dark:bg-[#0f172a]">
+			{contextHolder}
 			<Header className="fixed inset-0 z-50 flex justify-between w-full dark:bg-[#0f172a]">
 				<Row style={{ width: "100%" }}>
 					<Col span={16}>

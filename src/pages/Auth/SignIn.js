@@ -1,27 +1,57 @@
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 import styles from "./signIn.module.css";
+import useNotificationAuth from "../../hooks/useNotificationAuth";
+import { portAuth } from "../../utils/global";
+import { requestAuthFetchMe, saveToken } from "../../utils/auth";
+import { setUser } from "../../store/AuthSlice";
 
 import { Button, Checkbox, Form, Input } from "antd";
-import useNotificationAuth from "../../hooks/useNotificationAuth";
-import { authLogin } from "../../store/auth/AuthSlice";
-import { useDispatch } from "react-redux";
 
 const SignIn = () => {
 	const navigate = useNavigate();
-	const { state } = useLocation();
 	const dispatch = useDispatch();
+	const { state } = useLocation();
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
+	const { user } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (user && user.id) {
+			navigate("/", { state: { status: 200 } });
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user]);
+	if (user) return;
 
 	const onFinish = async (values) => {
 		try {
-			dispatch(authLogin(values));
-			navigate("/");
+			const res = await axios.post(`${portAuth}/auth/login`, {
+				...values,
+			});
+			if (res.data && res.status === 200) {
+				saveToken(res.data.accessToken, res.data.refreshToken);
+				const res2 = await requestAuthFetchMe(res.data.accessToken);
+				return dispatch(
+					setUser({
+						user: res2.data,
+						accessToken: res.data.accessToken,
+					})
+				);
+			}
 		} catch (error) {
-			openNotificationWithIcon(
-				"error",
-				"Thông tin tài khoản hoặc mật khẩu không chính xác!"
-			);
+			error.response.status === 404 &&
+				openNotificationWithIcon(
+					"error",
+					"Hệ thống đang xảy ra lỗi, vui lòng thử lại!"
+				);
+			error.response.status === 403 &&
+				openNotificationWithIcon(
+					"error",
+					"Thông tin đăng nhập không chính xác!"
+				);
 		}
 	};
 
@@ -32,13 +62,14 @@ const SignIn = () => {
 	return (
 		<div className="flex justify-between">
 			{contextHolder}
-			<img
-				// src="https://a-static.besthdwallpaper.com/samurai-girl-guerrier-fond-d-ecran-640x1136-18034_163.jpg"
-				src="https://images.pixai.art/images/orig/903fc1e6-4edf-44ea-ad92-1e209820acee"
-				alt=""
-				className="object-cover w-1/2 h-screen"
-			/>
-			<div className="relative flex flex-col items-center justify-between w-full dark:bg-[#0f172a]">
+			<div className="w-1/2 h-screen">
+				<img
+					src="/image/banner-signin.jpg"
+					alt=""
+					className="object-cover w-full h-full"
+				/>
+			</div>
+			<div className="relative flex flex-col items-center justify-between w-1/2 dark:bg-[#0f172a]">
 				<Form
 					name="basic"
 					labelCol={{
@@ -55,7 +86,7 @@ const SignIn = () => {
 					}}
 					onFinish={onFinish}
 					onFinishFailed={onFinishFailed}
-					autoComplete="off"
+					autoComplete="on"
 				>
 					<Form.Item
 						label="Email"
@@ -67,11 +98,7 @@ const SignIn = () => {
 							},
 						]}
 					>
-						<Input
-							type="email"
-							autoFocus
-							// defaultValue={`${location.email || ""}`}
-						/>
+						<Input type="email" autoFocus />
 					</Form.Item>
 					<Form.Item
 						label="Mật khẩu"
@@ -83,9 +110,7 @@ const SignIn = () => {
 							},
 						]}
 					>
-						<Input.Password
-						// defaultValue={`${location.password || ""}`}
-						/>
+						<Input.Password />
 					</Form.Item>
 
 					<Form.Item
@@ -118,7 +143,7 @@ const SignIn = () => {
 						</p>
 					</Form.Item>
 				</Form>
-				<div className="w-full absolute bottom-0 right-0 left-0 z-0">
+				<div className="absolute bottom-0 left-0 right-0 z-0 w-full">
 					<svg
 						width="100%"
 						height="100%"

@@ -1,25 +1,26 @@
-import { Button } from "antd";
+import { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { urlApiShoppingCart } from "../utils/global";
+
 import FireWorks from "./FireWorks";
+import { urlApiShoppingCart } from "../utils/global";
+
+import { Button } from "antd";
 
 const PaySuccess = () => {
+	const navigate = useNavigate();
 	const { search } = useLocation();
-	console.log("🚀 ~ file: PaySuccess.js:8 ~ PaySuccess ~ search:", search);
 
 	useEffect(() => {
 		if (search) {
 			const listIdProduct = getListIdProduct(search);
-			console.log(
-				"🚀 ~ file: PaySuccess.js:16 ~ useEffect ~ listIdProduct:",
-				listIdProduct
-			);
 			deleteProducts(urlApiShoppingCart, listIdProduct);
+		} else {
+			navigate("/");
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	if (!search) return;
 
 	const deleteProducts = (url, listIdProduct = []) => {
 		listIdProduct.forEach((e) => axios.delete(`${url}${e}`));
@@ -38,7 +39,7 @@ const PaySuccess = () => {
 	};
 
 	return (
-		<div className="h-screen max-h-screen text-center relative overflow-hidden">
+		<div className="relative h-screen max-h-screen overflow-hidden text-center">
 			<div className="z-[99999] absolute inset-0 flex flex-col items-center">
 				<h1 className="text-3xl font-extrabold">
 					thanh toán đơn hàng thành công!

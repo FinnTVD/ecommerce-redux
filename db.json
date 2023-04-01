@@ -533,41 +533,6 @@
       }
     },
     {
-      "id": 10,
-      "name": "Apple Macbook Pro 13 M2 2022 8GB 256GB I Chính hãng Apple Việt Nam",
-      "listPrice": 35990000,
-      "category": "laptop",
-      "sale": {
-        "salePercent": 0,
-        "salePrice": 30290000
-      },
-      "description": {
-        "status": "Máy mới 100%, đầy đủ phụ kiện từ nhà sản xuất. Sản phẩm có mã SA/A (được Apple Việt Nam phân phối chính thức).",
-        "gift": "Máy, Sách HDSD, Dây cáp sạc USB-C (2 m), Cốc sạc USB-C 30W",
-        "guarantee": "1 ĐỔI 1 trong 30 ngày nếu có lỗi phần cứng nhà sản xuất. Bảo hành 12 tháng tại trung tâm bảo hành chính hãng Apple : Điện Thoại Vui ASP (Apple Authorized Service Provider)"
-      },
-      "promote": [
-        "Nhập mã APPLEMOCA - giảm 600k khi mua iPhone, iPad, Mac từ 19 triệu trở lên và thanh toán qua ví Moca trên ứng dụng Grab (Xem chi tiết)",
-        "Thu cũ lên đời - Trợ giá 1 triệu",
-        "Mua Office Home & Student 2021 kèm Macbook chỉ còn 2,090,000"
-      ],
-      "avatar": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/m/a/macbook_256.png",
-      "option": [
-        {
-          "color": "Xám",
-          "image": "https://cdn2.cellphones.com.vn/358x/media/catalog/product/m/b/mbp-spacegray-select-202206_2.jpg"
-        },
-        {
-          "color": "Bạc",
-          "image": "https://cdn2.cellphones.com.vn/358x/media/catalog/product/m/b/mbp-silver-select-202206_2.jpg"
-        }
-      ],
-      "rating": {
-        "rate": 4.8,
-        "review": 10
-      }
-    },
-    {
       "id": 5,
       "name": "Samsung Galaxy S23 Ultra 256GB",
       "listPrice": 31990000,
@@ -612,44 +577,6 @@
       }
     },
     {
-      "id": 8,
-      "name": "Loa Bluetooth Marshall Stanmore 2",
-      "listPrice": 11190000,
-      "category": "sound",
-      "sale": {
-        "salePercent": 20,
-        "salePrice": 8990000
-      },
-      "description": {
-        "status": "Mới, đầy đủ phụ kiện từ nhà sản xuất",
-        "gift": "Loa, Cáp nguồn, Sách hướng dẫn",
-        "guarantee": "Bảo hành 1 đổi 1 trong 12 tháng."
-      },
-      "promote": [
-        "Tặng thêm dịch vụ bảo hành Vip 12 tháng 1 đổi 1",
-        "Tặng tai nghe Bluetooth Oppo Enco Buds W12 Trắng"
-      ],
-      "avatar": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/m/a/marshall_stanmore_2.png",
-      "option": [
-        {
-          "color": "Nâu",
-          "image": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/m/a/marshall_stanmore_2_6.png"
-        },
-        {
-          "color": "Đen",
-          "image": "https://cdn2.cellphones.com.vn/358x/media/catalog/product/l/o/loa-khong-day-marshall-stanmore-ii-3_1.jpg"
-        },
-        {
-          "color": "Trắng",
-          "image": "https://cdn2.cellphones.com.vn/358x/media/catalog/product/1/_/1_62_1.jpg"
-        }
-      ],
-      "rating": {
-        "rate": 4.3,
-        "review": 2
-      }
-    },
-    {
       "id": 7,
       "name": "Apple Watch Series 8 41mm GPS viền nhôm | Chính hãng VN/A",
       "listPrice": 11990000,
@@ -684,6 +611,36 @@
       "rating": {
         "rate": 4.2,
         "review": 10
+      }
+    },
+    {
+      "id": 6,
+      "name": "Loa Bluetooth Harman Kardon Go + Play",
+      "listPrice": 6490000,
+      "category": "sound",
+      "sale": {
+        "salePercent": 8,
+        "salePrice": 5990000
+      },
+      "description": {
+        "status": "Mới, đầy đủ phụ kiện từ nhà sản xuất",
+        "gift": "Loa, Cáp sạc Micro USB, Sách hướng dẫn",
+        "guarantee": "Bảo hành chính hãng 12 tháng, 1 ĐỔI 1 trong 30 ngày đầu."
+      },
+      "promote": [
+        "Tặng thêm dịch vụ bảo hành Vip 12 tháng 1 đổi 1",
+        "Tặng tai nghe Bluetooth Oppo Enco Buds W12 Trắng"
+      ],
+      "avatar": "https://cdn2.cellphones.com.vn/358x358,webp,q100/media/catalog/product/f/r/frame_2_2.png",
+      "option": [
+        {
+          "color": "Đen",
+          "image": "https://cdn2.cellphones.com.vn/358x/media/catalog/product/1/_/1_38_1.jpg"
+        }
+      ],
+      "rating": {
+        "rate": 5,
+        "review": 4
       }
     }
   ]

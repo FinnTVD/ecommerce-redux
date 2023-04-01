@@ -1,5 +1,7 @@
 import { Button, Form, Input } from "antd";
 import axios from "axios";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useNotificationAuth from "../../hooks/useNotificationAuth";
 import { portAuth } from "../../utils/global";
@@ -7,6 +9,16 @@ import { portAuth } from "../../utils/global";
 const SignUp = () => {
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const navigate = useNavigate();
+	const { user } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		if (user && user.email) {
+			navigate("/");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user]);
+	if (user) return;
+
 	const onFinish = async (values) => {
 		try {
 			const res = await axios.post(`${portAuth}/auth/register`, {
@@ -39,10 +51,10 @@ const SignUp = () => {
 	};
 
 	return (
-		<div className="flex relative justify-between bg-gradient-to-r from-indigo-600 to-sky-400 w-screen h-screen">
+		<div className="relative flex justify-between w-screen h-screen bg-gradient-to-r from-indigo-600 to-sky-400">
 			{contextHolder}
 			<div className="flex flex-col items-center justify-center w-[35%] gap-y-10">
-				<h1 className="text-white font-bold text-5xl text-center">
+				<h1 className="text-5xl font-bold text-center text-white">
 					Welcome
 				</h1>
 				<svg

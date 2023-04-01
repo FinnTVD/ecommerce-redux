@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Checkbox, Modal } from "antd";
 import SelectLocation from "./SelectLocation";
+import { checkValueObjectEqualTrue } from "../../utils/global";
 
 const AddressUser = ({
 	isModalOpen,
@@ -45,7 +46,12 @@ const AddressUser = ({
 		<Button key="back" onClick={handleCancel}>
 			Cancel
 		</Button>,
-		<Button key="submit" type="primary" onClick={handleOk}>
+		<Button
+			key="submit"
+			type="primary"
+			disabled={!checkValueObjectEqualTrue(infoUser)}
+			onClick={handleOk}
+		>
 			Ok
 		</Button>,
 	];
@@ -73,9 +79,9 @@ const AddressUser = ({
 				{isConnect && (
 					<div>
 						<img
-							src="https://www.alkhaleej.ae/sites/default/files/styles/social_large/public/migrated/75e67618-51df-4082-b526-fe99004af69c.jpg?itok=c39L_EP9"
+							src="/image/address-disconnect.jpg"
 							alt=""
-							className="w-full h-full object-cover"
+							className="object-cover w-full h-full"
 						/>
 					</div>
 				)}

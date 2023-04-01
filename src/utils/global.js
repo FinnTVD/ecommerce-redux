@@ -1,9 +1,5 @@
 export const category = [
 	{
-		title: "Tất cả",
-		value: "",
-	},
-	{
 		title: "Điện thoại",
 		value: "smartphone",
 	},
@@ -33,3 +29,6 @@ export const urlApi = "http://localhost:3000";
 export const portAuth = "http://localhost:5000";
 export const urlApiShoppingCart = `${urlApi}/shoppingCart/`;
 export const cookie_domain = "localhost";
+
+export const checkValueObjectEqualTrue = (obj) =>
+	Object.values(obj).every((e) => e !== null && e !== undefined && e !== "");

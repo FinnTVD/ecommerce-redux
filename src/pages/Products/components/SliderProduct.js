@@ -13,12 +13,12 @@ const SliderProduct = () => (
 				<div style={contentStyle}>
 					<img
 						className="w-1/2 cursor-pointer rounded-xl"
-						src="https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn/2023/02/banner/reno8t-720-220-720x220-8.png"
+						src="/image/left-slide.jpg"
 						alt=""
 					/>
 					<img
 						className="w-1/2 cursor-pointer rounded-xl"
-						src="https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn/2023/03/banner/s23-720-220-720x220-7.png"
+						src="/image/right-slide.jpg"
 						alt=""
 					/>
 				</div>
