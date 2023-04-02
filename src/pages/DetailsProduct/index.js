@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -8,6 +8,8 @@ import { Col, Image, Row, Rate, message } from "antd";
 import { setIsAddSuccess } from "../../store/ShoppingCartSlice";
 import SkeletonCard from "../Products/components/SkeletonCard";
 import { urlApi } from "../../utils/global";
+
+const key = "addProductCart";
 
 const DetailsProduct = () => {
 	const { id } = useParams();
@@ -20,7 +22,6 @@ const DetailsProduct = () => {
 	);
 
 	const [messageApi, contextHolder] = message.useMessage();
-	const key = "addProductCart";
 
 	const openMessage = () => {
 		messageApi.open({
@@ -83,7 +84,7 @@ const DetailsProduct = () => {
 	return (
 		<>
 			{contextHolder}
-			<div className="max-w-[1200px] w-full mx-auto h-screen dark:text-white">
+			<div className="max-w-[1200px] w-full mx-auto h-screen dark:text-white dark:bg-[#0f172a]">
 				<div className="flex gap-x-10">
 					<h1 className="text-3xl font-bold">{name}</h1>
 					<Rate
@@ -104,6 +105,7 @@ const DetailsProduct = () => {
 								borderRadius: "10px",
 								textAlign: "center",
 								overflow: "hidden",
+								userSelect: "none",
 							}}
 						>
 							<Image

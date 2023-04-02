@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 
 const menuUser = [
@@ -8,7 +9,6 @@ const menuUser = [
 ];
 
 const MenuUser = ({ handleSignOut }) => {
-	console.log("render menuUser");
 	return (
 		<div className="flex flex-col gap-y-2">
 			{menuUser.map((e) => (
@@ -27,4 +27,4 @@ const MenuUser = ({ handleSignOut }) => {
 	);
 };
 
-export default MenuUser;
+export default memo(MenuUser);

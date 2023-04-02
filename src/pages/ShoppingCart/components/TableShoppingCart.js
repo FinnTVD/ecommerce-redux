@@ -1,8 +1,8 @@
-import { Button, Image, Space, Table } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 import {
 	getShoppingCart,
 	setIsDelete,
@@ -11,6 +11,8 @@ import {
 import { customArray, urlApi } from "../../../utils/global";
 import SkeletonCard from "../../Products/components/SkeletonCard";
 import PopConfirmDelete from "./PopConfirmDelete";
+
+import { Button, Image, Space, Table } from "antd";
 
 const TableShoppingCart = () => {
 	const [current, setCurrent] = useState(1);
@@ -24,11 +26,6 @@ const TableShoppingCart = () => {
 		lengthShoppingCart,
 	} = useSelector((state) => state.shoppingCart);
 
-	const handleChangePage = (e) => {
-		setCurrent(e);
-		dispatch(getShoppingCart(e));
-	};
-
 	useEffect(() => {
 		if (selectedRowKeys.length > 0) {
 			let a = [];
@@ -39,15 +36,14 @@ const TableShoppingCart = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isDelete]);
 
+	const handleChangePage = (e) => {
+		setCurrent(e);
+		dispatch(getShoppingCart(e));
+	};
+
 	const onSelectChange = (newSelected, selectedRowKeys) => {
 		setSelected(newSelected);
 		dispatch(setSelectedRowKeys(selectedRowKeys));
-	};
-
-	const rowSelection = {
-		selectedRowKeys: selected,
-		onChange: onSelectChange,
-		selections: [Table.SELECTION_ALL, Table.SELECTION_NONE],
 	};
 
 	const handleDeleteProduct = async (id) => {
@@ -128,7 +124,11 @@ const TableShoppingCart = () => {
 			) : (
 				<Table
 					rowKey={(obj) => obj.id}
-					rowSelection={rowSelection}
+					rowSelection={{
+						selectedRowKeys: selected,
+						onChange: onSelectChange,
+						selections: [Table.SELECTION_ALL, Table.SELECTION_NONE],
+					}}
 					columns={columns}
 					dataSource={shoppingCart}
 					pagination={{

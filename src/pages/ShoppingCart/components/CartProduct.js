@@ -1,29 +1,69 @@
-import React from "react";
-import { Popover } from "antd";
-import { useNavigate } from "react-router-dom";
+import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIdParam } from "../../../store/ShoppingCartSlice";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const PopoverCard = ({ children }) => {
+import { setIdParam } from "../../../store/ShoppingCartSlice";
+import { setLengthShoppingCart } from "../../../store/ShoppingCartSlice";
+import { urlApi } from "../../../utils/global";
+
+import { Badge, Popover } from "antd";
+
+const CartProduct = ({ handleClickCard }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const { cartList } = useSelector((state) => state.shoppingCart);
+	const { isDelete, isAddSuccess, lengthShoppingCart } = useSelector(
+		(state) => state.shoppingCart
+	);
+	const { accessToken } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		accessToken &&
+			axios.get(`${urlApi}/shoppingCart`).then((res) => {
+				dispatch(setLengthShoppingCart(res.data.length));
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isDelete, isAddSuccess, accessToken]);
+
+	console.log("render cart-product");
 
 	return (
-		<Popover
-			placement="bottomRight"
-			title={
-				<span>
-					{cartList.length > 0
-						? "Sản phẩm mới thêm"
-						: "Chưa có sản phẩm"}
-				</span>
-			}
-			content={content(cartList, navigate, dispatch)}
+		<Badge
+			style={{
+				userSelect: "none",
+			}}
+			count={lengthShoppingCart > 0 ? lengthShoppingCart : ""}
 		>
-			{children}
-		</Popover>
+			<Popover
+				placement="bottomRight"
+				title={
+					<span>
+						{cartList.length > 0
+							? "Sản phẩm mới thêm"
+							: "Chưa có sản phẩm"}
+					</span>
+				}
+				content={content(cartList, navigate, dispatch)}
+			>
+				<svg
+					onClick={handleClickCard}
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					strokeWidth="1.5"
+					stroke="currentColor"
+					className="w-10 h-10 text-white cursor-pointer"
+				>
+					<path
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+					/>
+				</svg>
+			</Popover>
+		</Badge>
 	);
 };
 
@@ -97,4 +137,4 @@ const content = (cartList, navigate, dispatch) => {
 	);
 };
 
-export default PopoverCard;
+export default memo(CartProduct);

@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Drawer } from "antd";
 import { saveToken } from "../utils/auth";
 import { setUser } from "../store/AuthSlice";
 import MenuUser from "./MenuUser";
+
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Drawer } from "antd";
 
 const AvatarUser = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false);
 	const { user } = useSelector((state) => state.auth);
-	if (!user) return;
 
-	const handleSignOut = () => {
+	const handleSignOut = useCallback(() => {
 		saveToken();
 		dispatch(
 			setUser({
@@ -24,9 +24,10 @@ const AvatarUser = () => {
 			})
 		);
 		navigate("/sign-in");
-	};
-	console.log("render avatarUser");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
+	if (!user) return;
 	const showDrawer = () => {
 		setOpen(true);
 	};

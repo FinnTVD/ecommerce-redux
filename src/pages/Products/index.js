@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import CardProduct from "./components/CardProduct";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import CardProduct from "./components/CardProduct";
 import { fetchProduct } from "../../store/ProductSlice";
 import SkeletonCard from "./components/SkeletonCard";
 import PaginationProduct from "./components/Pagination";

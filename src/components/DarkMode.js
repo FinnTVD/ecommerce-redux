@@ -8,8 +8,6 @@ const DarkMode = () => {
 		setDarkMode(!darkMode);
 	};
 
-	console.log("render dark-mode");
-
 	return (
 		<div>
 			<div className="relative flex items-center justify-center">
