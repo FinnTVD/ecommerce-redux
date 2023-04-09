@@ -8,11 +8,15 @@ const AuthSlice = createSlice({
 	initialState: {
 		user: undefined,
 		accessToken: null,
+		avatarUser: "",
 	},
 	reducers: {
 		setUser: (state, action) => {
 			state.user = action.payload.user;
 			state.accessToken = action.payload.accessToken;
+		},
+		setAvatarUser: (state, action) => {
+			state.avatarUser = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -45,6 +49,6 @@ export const authRefreshToken = createAsyncThunk(
 	}
 );
 
-export const { setUser } = AuthSlice.actions;
+export const { setUser, setAvatarUser } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

@@ -7,13 +7,12 @@ const CardProduct = ({ item }) => {
 
 	return (
 		<Card
-			className="cardProduct"
-			style={{ cursor: "pointer" }}
+			className="cardProduct cursor-pointer"
 			onClick={() => navigate(`/product/${id}`)}
 			cover={
 				<img
 					src={avatar}
-					className="w-full h-[300px] object-contain"
+					className="w-full h-[300px] max-lg:h-[170px] object-contain"
 					alt={name}
 				/>
 			}
@@ -43,7 +42,10 @@ const CardProduct = ({ item }) => {
 				<div>Reviews: {rating.review}</div>,
 			]}
 		>
-			<h1 title={name} className="text-base font-medium truncate">
+			<h1
+				title={name}
+				className="text-base font-medium truncate max-sm:text-center "
+			>
 				{name}
 			</h1>
 		</Card>

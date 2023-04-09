@@ -1,30 +1,35 @@
+import useResize from "../../../hooks/useResize";
 import { customArray } from "../../../utils/global";
 
 import { Carousel } from "antd";
 
-const contentStyle = {
-	display: "flex",
-	gap: "0 16px",
-	height: "180px",
-	maxHeight: "180px",
-};
-
 const SliderProduct = () => {
+	const widthScreen = useResize();
 	return (
-		<Carousel autoplay dots={{ className: "dotsSlider" }}>
+		<Carousel autoplay>
 			{customArray(3).map((e, index) => (
 				<div key={index}>
-					<div style={contentStyle}>
+					<div className="flex gap-x-4 h-[180px] rounded-xl !overflow-hidden">
 						<img
-							className="w-1/2 cursor-pointer rounded-xl"
-							src="/image/left-slide.jpg"
+							className={`${
+								widthScreen >= 768 ? "w-1/2" : "w-full"
+							} cursor-pointer rounded-xl`}
+							src={
+								widthScreen >= 768
+									? "/image/left-slide.jpg"
+									: index % 2 === 0
+									? "/image/left-slide.jpg"
+									: "/image/right-slide.jpg"
+							}
 							alt=""
 						/>
-						<img
-							className="w-1/2 cursor-pointer rounded-xl"
-							src="/image/right-slide.jpg"
-							alt=""
-						/>
+						{widthScreen >= 768 && (
+							<img
+								className="w-1/2 cursor-pointer rounded-xl"
+								src="/image/right-slide.jpg"
+								alt=""
+							/>
+						)}
 					</div>
 				</div>
 			))}

@@ -8,6 +8,7 @@ import useNotificationAuth from "../../hooks/useNotificationAuth";
 import { portAuth } from "../../utils/global";
 import { requestAuthFetchMe, saveToken } from "../../utils/auth";
 import { setUser } from "../../store/AuthSlice";
+import useResize from "../../hooks/useResize";
 
 import { Button, Checkbox, Form, Input } from "antd";
 
@@ -17,6 +18,7 @@ const SignIn = () => {
 	const { state } = useLocation();
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const { user } = useSelector((state) => state.auth);
+	const widthScreen = useResize();
 
 	useEffect(() => {
 		if (user && user.id) {
@@ -47,7 +49,7 @@ const SignIn = () => {
 					"error",
 					"Hệ thống đang xảy ra lỗi, vui lòng thử lại!"
 				);
-			error.response.status === 403 &&
+			error.response.status === 401 &&
 				openNotificationWithIcon(
 					"error",
 					"Thông tin đăng nhập không chính xác!"
@@ -60,16 +62,18 @@ const SignIn = () => {
 	};
 
 	return (
-		<div className="flex justify-between">
+		<div className="flex h-screen lg:justify-between">
 			{contextHolder}
-			<div className="w-1/2 h-screen">
-				<img
-					src="/image/banner-signin.jpg"
-					alt=""
-					className="object-cover w-full h-full"
-				/>
-			</div>
-			<div className="relative flex flex-col items-center justify-between w-1/2 dark:bg-[#0f172a]">
+			{widthScreen >= 1024 && (
+				<div className="w-1/2 h-screen">
+					<img
+						src="/image/banner-signin.jpg"
+						alt=""
+						className="object-cover w-full h-full"
+					/>
+				</div>
+			)}
+			<div className="relative flex flex-col items-center justify-between lg:w-1/2 w-full dark:bg-[#0f172a]">
 				<Form
 					name="basic"
 					labelCol={{
@@ -78,7 +82,7 @@ const SignIn = () => {
 					wrapperCol={{
 						span: 16,
 					}}
-					className="absolute top-1/4 max-w-[600px] z-50"
+					className="absolute top-1/4 max-w-[600px] z-50 max-lg:top-[15%]"
 					initialValues={{
 						email: state?.email || "",
 						password: state?.password || "",
@@ -117,8 +121,7 @@ const SignIn = () => {
 						name="remember"
 						valuePropName="checked"
 						wrapperCol={{
-							offset: 8,
-							span: 16,
+							sm: { offset: 8, span: 16 },
 						}}
 						className="mb-1"
 					>
@@ -127,8 +130,7 @@ const SignIn = () => {
 
 					<Form.Item
 						wrapperCol={{
-							offset: 8,
-							span: 16,
+							sm: { offset: 8, span: 16 },
 						}}
 					>
 						<Button type="primary" htmlType="submit">
@@ -143,7 +145,7 @@ const SignIn = () => {
 						</p>
 					</Form.Item>
 				</Form>
-				<div className="absolute bottom-0 left-0 right-0 z-0 w-full">
+				<div className="absolute bottom-0 left-0 right-0 z-0 w-full ">
 					<svg
 						width="100%"
 						height="100%"

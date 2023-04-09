@@ -26,10 +26,10 @@ const ProductPage = () => {
 				customArray(6).map((e, index) => <SkeletonCard key={index} />)
 			) : (
 				<>
-					<div className="mb-10">
+					<div className="mb-10 max-sm:mb-6">
 						<SliderProduct />
 					</div>
-					<div className="grid grid-cols-5 gap-x-6 gap-y-10 card-product">
+					<div className="grid grid-cols-5 max-sm:grid-cols-2 max-sm:gap-x-4 max-md:grid-cols-3 max-lg:gap-x-4 max-lg:grid-cols-4 gap-x-6 gap-y-10 max-sm:gap-y-6 card-product">
 						{listProduct.length > 0 &&
 							listProduct
 								.slice(0, 10)

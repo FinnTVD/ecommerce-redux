@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Button, Checkbox, Modal } from "antd";
+import { memo, useState } from "react";
+
 import SelectLocation from "./SelectLocation";
 import { checkValueObjectEqualTrue } from "../../utils/global";
+
+import { Button, Checkbox, Modal } from "antd";
 
 const AddressUser = ({
 	isModalOpen,
@@ -35,27 +37,6 @@ const AddressUser = ({
 		setIsCheck(true);
 	};
 
-	const footer = !isConnect && [
-		<Checkbox
-			key="checkbox"
-			defaultChecked={true}
-			className="select-none mr-[157px]"
-		>
-			Đặt làm địa chỉ mặc định
-		</Checkbox>,
-		<Button key="back" onClick={handleCancel}>
-			Cancel
-		</Button>,
-		<Button
-			key="submit"
-			type="primary"
-			disabled={!checkValueObjectEqualTrue(infoUser)}
-			onClick={handleOk}
-		>
-			Ok
-		</Button>,
-	];
-
 	const handleChangeInput = (e) => {
 		setInfoUser({
 			...infoUser,
@@ -73,8 +54,32 @@ const AddressUser = ({
 				}
 				open={isModalOpen}
 				onOk={handleOk}
-				onCancel={handleCancel}
-				footer={footer}
+				onCancel={() => {
+					handleCancel();
+					handleResetValue();
+				}}
+				footer={
+					!isConnect && [
+						<Checkbox
+							key="checkbox"
+							defaultChecked={true}
+							className="select-none mr-[157px] text-black dark:!text-black"
+						>
+							Đặt làm địa chỉ mặc định
+						</Checkbox>,
+						<Button key="back" onClick={handleCancel}>
+							Cancel
+						</Button>,
+						<Button
+							key="submit"
+							type="primary"
+							disabled={!checkValueObjectEqualTrue(infoUser)}
+							onClick={handleOk}
+						>
+							Ok
+						</Button>,
+					]
+				}
 			>
 				{isConnect && (
 					<div>
@@ -164,4 +169,4 @@ const AddressUser = ({
 		</>
 	);
 };
-export default AddressUser;
+export default memo(AddressUser);

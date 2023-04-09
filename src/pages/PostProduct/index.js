@@ -1,6 +1,9 @@
-import { Button, Form, Input, Select, Space } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
+const { TextArea } = Input;
 const { Option } = Select;
+
 const layout = {
 	labelCol: {
 		span: 8,
@@ -18,6 +21,7 @@ const tailLayout = {
 
 const PostProduct = () => {
 	const [form] = Form.useForm();
+
 	const onFinish = (values) => {
 		console.log(values);
 	};
@@ -36,27 +40,26 @@ const PostProduct = () => {
 			form={form}
 			name="control-hooks"
 			onFinish={onFinish}
-			style={{
-				maxWidth: 600,
-			}}
+			className="max-w-[600px]"
 		>
 			<Form.Item
 				name="name"
 				label="Tên sản phẩm"
 				rules={[
 					{
-						required: false,
+						required: true,
 					},
 				]}
 			>
-				<Input />
+				{/* <Input /> */}
+				<TextArea rows={4} />
 			</Form.Item>
 			<Form.Item
 				name="price"
 				label="Giá"
 				rules={[
 					{
-						required: false,
+						required: true,
 					},
 				]}
 			>
@@ -67,7 +70,7 @@ const PostProduct = () => {
 				label="Link ảnh nền"
 				rules={[
 					{
-						required: false,
+						required: true,
 					},
 				]}
 			>
@@ -86,7 +89,7 @@ const PostProduct = () => {
 				<Input placeholder="First Name" />
 			</Form.Item>
 			<Form.Item
-				label="Link Image"
+				label="Link ảnh"
 				name="image"
 				rules={[
 					{
@@ -155,7 +158,7 @@ const PostProduct = () => {
 				label="Danh mục"
 				rules={[
 					{
-						required: false,
+						required: true,
 					},
 				]}
 			>

@@ -5,11 +5,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useNotificationAuth from "../../hooks/useNotificationAuth";
 import { portAuth } from "../../utils/global";
+import useResize from "../../hooks/useResize";
 
 const SignUp = () => {
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
+	const widthScreen = useResize();
 
 	useEffect(() => {
 		if (user && user.email) {
@@ -23,6 +25,7 @@ const SignUp = () => {
 		try {
 			const res = await axios.post(`${portAuth}/auth/register`, {
 				...values,
+				name: values.name.trim(),
 			});
 			res.status === 201 &&
 				openNotificationWithIcon(
@@ -51,10 +54,10 @@ const SignUp = () => {
 	};
 
 	return (
-		<div className="relative flex justify-between w-screen h-screen bg-gradient-to-r from-indigo-600 to-sky-400">
+		<div className="relative flex justify-between w-screen h-screen max-md:flex-col bg-gradient-to-r from-indigo-600 to-sky-400">
 			{contextHolder}
-			<div className="flex flex-col items-center justify-center w-[35%] gap-y-10">
-				<h1 className="text-5xl font-bold text-center text-white">
+			<div className="flex flex-col items-center justify-center w-[35%] max-md:w-full max-md:gap-y-5 gap-y-10">
+				<h1 className="text-5xl font-bold text-center text-white max-md:text-xl max-md:mt-10">
 					Welcome
 				</h1>
 				<svg
@@ -71,13 +74,13 @@ const SignUp = () => {
 						d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
 					/>
 				</svg>
-				<p className="text-center text-white">
+				<p className="text-center text-white max-md:px-4">
 					Hãy đăng ký tài khoản để được trải nghiệm các sản phẩm tốt
 					nhất của chúng tôi.
 				</p>
-				<div className="h-[100px]"></div>
+				{widthScreen >= 768 && <div className="h-[100px]"></div>}
 			</div>
-			<div className="flex items-center  justify-center w-[calc(65%-80px)] bg-white dark:bg-[#0f172a] absolute h-4/5 top-1/2 right-0 -translate-y-1/2 before:content-[''] before:absolute before:bg-white before:dark:bg-[#0f172a] before:w-[80px] before:h-full before:z-50 before:top-0 before:-left-[79px] before:rounded-l-[50%]">
+			<div className="flex max-md:w-full items-center justify-center w-[calc(65%-80px)] md:bg-white md:dark:bg-[#0f172a] absolute md:h-4/5 top-1/2 right-0 -translate-y-[50%] max-md:-translate-y-[40%] md:before:content-[''] md:before:absolute md:before:bg-white md:before:dark:bg-[#0f172a] md:before:w-[80px] md:before:h-full md:before:z-50 md:before:top-0 md:before:-left-[79px] md:before:rounded-l-[50%]">
 				<Form
 					name="basic"
 					labelCol={{
@@ -86,7 +89,7 @@ const SignUp = () => {
 					wrapperCol={{
 						span: 16,
 					}}
-					className="w-[600px]"
+					className="xl:w-[600px] lg:w-[400px]"
 					initialValues={{
 						remember: true,
 					}}
@@ -97,16 +100,20 @@ const SignUp = () => {
 					<Form.Item
 						label="Tên"
 						name="name"
+						className="max-md:mb-2"
 						rules={[
 							{
 								required: true,
 								message: "Vui lòng điền vào mục này!",
 							},
-							{
-								min: 6,
-								message:
-									"Vui lòng nhập đặt tên phải có từ 6 kí tự trở lên!",
-							},
+							// {
+							// 	pattern: new RegExp(
+							// 		/^[a-zA-Z\s\p{L}\p{M}]{2,}$/
+							// 	),
+							// 	message:
+							// 		"Vui lòng nhập tên phải có ít nhất 2 chữ cái!",
+							// },
+							{ min: 2 },
 						]}
 					>
 						<Input autoFocus />
@@ -115,6 +122,7 @@ const SignUp = () => {
 					<Form.Item
 						label="Email"
 						name="email"
+						className="max-md:mb-2"
 						rules={[
 							{
 								required: true,
@@ -140,10 +148,10 @@ const SignUp = () => {
 							},
 							{
 								pattern: new RegExp(
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
+									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/
 								),
 								message:
-									"Vui lòng đặt mất khẩu phải có ít nhất 1 kí tự hoa, 1 kí tự thường, 1 số và có ít nhất 6 kí tự!",
+									"Vui lòng đặt mật khẩu phải có ít nhất 1 kí tự hoa, 1 kí tự thường, 1 số và có ít nhất 6 kí tự!",
 							},
 						]}
 					>
@@ -152,8 +160,7 @@ const SignUp = () => {
 
 					<Form.Item
 						wrapperCol={{
-							offset: 8,
-							span: 16,
+							md: { offset: 8, span: 16 },
 						}}
 					>
 						<Button type="primary" htmlType="submit">
@@ -162,7 +169,7 @@ const SignUp = () => {
 						<p className="mt-3 dark:text-white">
 							Bạn đã có tài khoản, hãy bấm vào đây để
 							<span
-								className="text-[#1677ff] cursor-pointer"
+								className="text-[#1677ff] cursor-pointer max-md:font-bold max-md:underline max-md:text-white"
 								onClick={() => navigate("/sign-in")}
 							>
 								{" "}

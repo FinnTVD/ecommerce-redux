@@ -10,12 +10,13 @@ import {
 } from "../store/ProductSlice";
 import CartProduct from "../pages/ShoppingCart/components/CartProduct";
 import { setCartList } from "../store/ShoppingCartSlice";
-import { category, urlApi } from "../utils/global";
-
-import { Col, Layout, Menu, Row } from "antd";
+import { category, categoryMobile, urlApi } from "../utils/global";
 import AvatarUser from "./AvatarUser";
 import DarkMode from "./DarkMode";
 import useNotificationAuth from "../hooks/useNotificationAuth";
+
+import { Col, Drawer, Layout, Menu, Row } from "antd";
+import useResize from "../hooks/useResize";
 const { Header, Content } = Layout;
 
 const HomeLayout = () => {
@@ -24,19 +25,18 @@ const HomeLayout = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { pathname, state } = useLocation();
-	console.log(
-		"🚀 ~ file: HomeLayout.js:27 ~ HomeLayout ~ pathname:",
-		pathname
-	);
+	const widthScreen = useResize();
+	const [open, setOpen] = useState(false);
 
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const { isAddSuccess, isDelete } = useSelector(
 		(state) => state.shoppingCart
 	);
 
-	const keyLocation = category.findIndex(
-		(e) => e.value === pathname.slice(1)
-	);
+	const keyLocation =
+		widthScreen < 768
+			? categoryMobile.findIndex((e) => e.value === pathname.slice(1))
+			: category.findIndex((e) => e.value === pathname.slice(1));
 
 	useEffect(() => {
 		setSelectedKeys(keyLocation);
@@ -62,6 +62,7 @@ const HomeLayout = () => {
 		dispatch(setCurrentPagination(1));
 		setSelectedKeys(e.key);
 		dispatch(fetchCategory(category[e.key].value));
+		e.mode === "mobile" && onClose();
 	};
 
 	const handleClickCard = useCallback(() => {
@@ -74,17 +75,23 @@ const HomeLayout = () => {
 	const handleClickHome = () => {
 		pathname !== "/" && navigate("/");
 		dispatch(setCurrentPagination(1));
-		setSelectedKeys(-1);
+		widthScreen < 768 ? setSelectedKeys(0) : setSelectedKeys(-1);
 		dispatch(fetchProduct());
+	};
+	const showDrawer = () => {
+		setOpen(true);
+	};
+	const onClose = () => {
+		setOpen(false);
 	};
 
 	return (
-		<Layout className="layout dark:bg-[#0f172a]">
+		<Layout className="layout dark:bg-[#0f172a] w-full">
 			{contextHolder}
-			<Header className="fixed inset-0 z-50 flex justify-between w-full dark:bg-[#0f172a]">
-				<Row style={{ width: "100%" }}>
-					<Col span={16}>
-						<div className="flex">
+			<Header className="w-full fixed inset-0 z-50 flex justify-between dark:bg-[#0f172a] max-sm:px-0">
+				<Row className="w-full">
+					<Col md={{ span: 16 }} lg={{ span: 16 }} xs={{ span: 6 }}>
+						<div className="flex h-full">
 							<div
 								onClick={handleClickHome}
 								className="flex items-center w-auto px-4 text-white cursor-pointer logo hover:text-gray-300"
@@ -104,26 +111,81 @@ const HomeLayout = () => {
 									/>
 								</svg>
 							</div>
-
-							<Menu
-								style={{ userSelect: "none", width: "100%" }}
-								onClick={handleChangeCategory}
-								theme="dark"
-								mode="horizontal"
-								selectedKeys={[`${selectedKeys}`]}
-								items={category.map((e, index) => {
-									const key = index;
-									return {
-										key,
-										label: e.title,
-									};
-								})}
-							/>
+							{widthScreen >= 992 && (
+								<Menu
+									className="menu-home select-none w-full bg-transparent text-white font-semibold"
+									onClick={handleChangeCategory}
+									mode="horizontal"
+									selectedKeys={[`${selectedKeys}`]}
+									items={category.map((e, index) => {
+										const key = index;
+										return {
+											key,
+											label: e.title,
+											className: "item-category",
+										};
+									})}
+								/>
+							)}
+							{widthScreen < 992 && (
+								<>
+									<div
+										onClick={showDrawer}
+										className="z-50 flex items-center text-white cursor-pointer"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											strokeWidth="1.5"
+											stroke="currentColor"
+											className="w-10 h-10"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+											/>
+										</svg>
+									</div>
+									<Drawer
+										title={
+											<h1 className="text-2xl font-bold">
+												Danh mục
+											</h1>
+										}
+										placement="left"
+										onClose={onClose}
+										open={open}
+										className="dark:bg-[#0f172a]"
+									>
+										{categoryMobile.map((e, index) => (
+											<p
+												onClick={() =>
+													handleChangeCategory({
+														key: index,
+														mode: "mobile",
+													})
+												}
+												className={`${
+													index === selectedKeys &&
+													"dark:bg-white bg-[#a8aaae] dark:!text-black !font-bold"
+												} py-3 dark:text-white font-medium`}
+												key={index}
+											>
+												{e.title}
+											</p>
+										))}
+									</Drawer>
+								</>
+							)}
 						</div>
 					</Col>
 					<Col
-						span={8}
-						className="flex items-center justify-end gap-x-4"
+						md={{ span: 8 }}
+						lg={{ span: 8 }}
+						xs={{ span: 18 }}
+						className="flex items-center justify-end pr-4 gap-x-4"
 					>
 						<DarkMode />
 						<CartProduct handleClickCard={handleClickCard} />
@@ -131,13 +193,8 @@ const HomeLayout = () => {
 					</Col>
 				</Row>
 			</Header>
-			<Content
-				style={{
-					padding: "0 50px",
-				}}
-			>
-				<div className="h-20 dark:bg-[#0f172a]"></div>
-				<div className="site-layout-content bg-white dark:bg-[#0f172a]">
+			<Content className="max-sm:min-h-screen w-full sm:py-0 sm:px-[50px]">
+				<div className="site-layout-content !pt-20 max-sm:!pt-[72px] bg-white dark:bg-[#0f172a] max-sm:p-4">
 					<Outlet />
 				</div>
 			</Content>

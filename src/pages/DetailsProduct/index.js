@@ -56,11 +56,9 @@ const DetailsProduct = () => {
 					`${urlApi}/shoppingCart/${id}`,
 					item[0]
 				);
-				console.log("🚀 ~ file: index.js:61 ~ addProduct ~ res:", res);
 				res.status === 200 && dispatch(setIsAddSuccess(!isAddSuccess));
 			} else {
 				const res = await axios.post(`${urlApi}/shoppingCart`, item[0]);
-				console.log("🚀 ~ file: index.js:69 ~ addProduct ~ res:", res);
 				res.status === 201 && dispatch(setIsAddSuccess(!isAddSuccess));
 			}
 			openMessage();
@@ -84,38 +82,35 @@ const DetailsProduct = () => {
 	return (
 		<>
 			{contextHolder}
-			<div className="max-w-[1200px] w-full mx-auto h-screen dark:text-white dark:bg-[#0f172a]">
-				<div className="flex gap-x-10">
+			<div className="max-w-[1200px] w-full mx-auto dark:text-white dark:bg-[#0f172a] h-auto">
+				<div className="flex gap-x-10 max-sm:flex-col">
 					<h1 className="text-3xl font-bold">{name}</h1>
 					<Rate
-						style={{
-							display: "flex",
-							alignItems: "center",
-						}}
+						className="flex items-center"
 						disabled
 						value={Math.round(rating.rate)}
 					/>
 					<span>{rating.review} đánh giá</span>
 				</div>
-				<Row gutter={24}>
-					<Col className="gutter-row" span={8}>
-						<div
-							style={{
-								border: "1px solid #e5e7eb",
-								borderRadius: "10px",
-								textAlign: "center",
-								overflow: "hidden",
-								userSelect: "none",
-							}}
-						>
+				<Row gutter={24} className="dark:bg-[#0f172a]">
+					<Col
+						className="gutter-row"
+						sm={{ span: 12 }}
+						lg={{ span: 8 }}
+					>
+						<div className="box-img rounded-[10px] text-center overflow-hidden select-none bg-white">
 							<Image
-								className="object-cover"
+								className="object-cover w-full h-full"
 								src={option[0].image}
 								alt={name}
 							/>
 						</div>
 					</Col>
-					<Col className="gutter-row" span={8}>
+					<Col
+						className="gutter-row"
+						sm={{ span: 12 }}
+						lg={{ span: 8 }}
+					>
 						<div className="flex items-end mb-3 gap-x-4">
 							<p className="text-[#d70018] text-lg font-bold">
 								{sale.salePrice === 0
@@ -142,21 +137,11 @@ const DetailsProduct = () => {
 								return (
 									<Col
 										className="gutter-row"
-										span={8}
+										sm={{ span: 8 }}
+										span={12}
 										key={index}
 									>
-										<div
-											style={{
-												display: "flex",
-												cursor: "pointer",
-												justifyContent: "center",
-												border: "1px solid #e5e7eb",
-												alignItems: "center",
-												overflow: "hidden",
-												borderRadius: "8px",
-												gap: "0 4px",
-											}}
-										>
+										<div className="flex cursor-pointer justify-center border border-solid border-[#e5e7eb] items-center overflow-hidden rounded-lg gap-x-1">
 											<img
 												className="w-[30px] h-[30px] object-contain"
 												src={e.image}
@@ -181,14 +166,7 @@ const DetailsProduct = () => {
 								);
 							})}
 							<Col span={24}>
-								<div
-									style={{
-										border: "1px solid #fee2e2",
-										borderRadius: "10px",
-										textAlign: "center",
-										overflow: "hidden",
-									}}
-								>
+								<div className="border border-solid border-[#fee2e2] rounded-[10px] text-center overflow-hidden">
 									<div className="bg-[#fee2e2] text-[#d70018] flex p-3 items-center gap-x-3">
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +204,7 @@ const DetailsProduct = () => {
 								</div>
 							</Col>
 						</Row>
-						<div className="flex gap-x-10 mt-8">
+						<div className="flex my-8 gap-x-10 dark:bg-[#0f172a]">
 							<div
 								onClick={handleAddProduct}
 								className="flex gap-x-3 bg-[#ffeee8] text-[#f06137] py-2 px-4 font-medium border border-[#f06137] rounded-sm cursor-pointer select-none hover:bg-[#f8f4f2]"
@@ -252,17 +230,8 @@ const DetailsProduct = () => {
 							</div>
 						</div>
 					</Col>
-					<Col span={8}>
-						<div
-							style={{
-								border: "1px solid #e5e7eb",
-								borderRadius: "10px",
-								padding: "24px",
-								display: "flex",
-								flexDirection: "column",
-								gap: "16px 0",
-							}}
-						>
+					<Col sm={{ span: 24 }} lg={{ span: 8 }}>
+						<div className="border border-solid border-[#e5e7eb] rounded-[10px] p-6 flex flex-col gap-y-4">
 							<h2 className="text-base font-bold">
 								Thông tin sản phẩm
 							</h2>

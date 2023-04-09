@@ -1,6 +1,7 @@
-import { Col, Row } from "antd";
+import { memo, useEffect, useState } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+
+import { Col, Row } from "antd";
 
 const SelectLocation = ({
 	handleValueInput,
@@ -146,4 +147,4 @@ const SelectLocation = ({
 	);
 };
 
-export default SelectLocation;
+export default memo(SelectLocation);

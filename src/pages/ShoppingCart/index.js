@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AddressUser from "../PayProduct/AddressUser";
@@ -21,8 +21,7 @@ const ShoppingCart = () => {
 		setIsModalOpen(true);
 	};
 
-	const handleOk = () => {
-		// setIsModalOpen(false);
+	const handleOk = useCallback(() => {
 		checkValueObjectEqualTrue(infoUser) &&
 			navigate("/confirm-pay", {
 				state: {
@@ -32,11 +31,12 @@ const ShoppingCart = () => {
 					selectedRowKeys,
 				},
 			});
-	};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [infoUser]);
 
-	const handleCancel = () => {
+	const handleCancel = useCallback(() => {
 		setIsModalOpen(false);
-	};
+	}, []);
 
 	const handleBuyProduct = () => {
 		if (selectedRowKeys.length === 0) return;
@@ -46,7 +46,7 @@ const ShoppingCart = () => {
 	return (
 		<>
 			<TableShoppingCart />
-			<div className="flex items-center justify-end mb-10 text-lg font-bold gap-x-3">
+			<div className="flex items-center justify-end mb-10 max-sm:text-base text-lg font-bold gap-x-3">
 				<span className="dark:text-white">
 					Tổng thanh toán ({selectedRowKeys.length} Sản phẩm):
 				</span>
@@ -59,7 +59,7 @@ const ShoppingCart = () => {
 				<button
 					onClick={handleBuyProduct}
 					disabled={selectedRowKeys.length === 0}
-					className="px-10 py-3 bg-orange-500 rounded-sm text-white text-[18px] font-medium disabled:bg-gray-500"
+					className="max-sm:px-2 max-sm:py-1 max-sm:text-base px-10 py-3 bg-orange-500 rounded-sm text-white text-lg font-medium disabled:bg-gray-500"
 				>
 					Mua hàng
 				</button>
