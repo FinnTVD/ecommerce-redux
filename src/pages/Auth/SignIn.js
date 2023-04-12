@@ -9,6 +9,7 @@ import { portAuth } from "../../utils/global";
 import { requestAuthFetchMe, saveToken } from "../../utils/auth";
 import { setUser } from "../../store/AuthSlice";
 import useResize from "../../hooks/useResize";
+import useLanguage from "../../hooks/useLanguage";
 
 import { Button, Checkbox, Form, Input } from "antd";
 import { FacebookFilled, GoogleSquareFilled } from "@ant-design/icons";
@@ -19,7 +20,6 @@ import {
 	signInWithPopup,
 	signOut,
 } from "firebase/auth";
-import useLanguage from "../../hooks/useLanguage";
 import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
