@@ -159,7 +159,7 @@ const SignUp = () => {
 									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
 								),
 								message: t(
-									"signup.messagePasswordInput.messagePasswordInput"
+									"signup.messagePasswordInput.regexCheckPassword"
 								),
 							},
 							{
