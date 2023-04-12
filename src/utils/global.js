@@ -59,3 +59,8 @@ export const cookie_domain = window.location.hostname;
 
 export const checkValueObjectEqualTrue = (obj) =>
 	Object.values(obj).every((e) => e !== null && e !== undefined && e !== "");
+
+export const optionLanguages = {
+	en: "English",
+	vi: "Tiếng việt",
+};

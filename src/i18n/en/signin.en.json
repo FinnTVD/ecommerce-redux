@@ -1,0 +1,11 @@
+{
+	"signin": {
+		"title": "Sign In",
+		"messageRequiredEmail": "Please enter your email!",
+		"passwordInput": "Password",
+		"messageRequiredPassword": "Please enter your password!",
+		"saveAccount": "Save password",
+		"notHaveAccount": "If you don't have an account, click here to",
+		"register": "Register"
+	}
+}

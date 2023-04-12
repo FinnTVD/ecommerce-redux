@@ -1,0 +1,11 @@
+{
+	"signin": {
+		"title": "Đăng nhập",
+		"messageRequiredEmail": "Vui lòng nhập email của bạn!",
+		"passwordInput": "Mật khẩu",
+		"messageRequiredPassword": "Vui lòng nhập mật khẩu của bạn!",
+		"saveAccount": "Nhớ mật khẩu",
+		"notHaveAccount": "Nếu bạn chưa có tài khoản hãy bấm vào đây để",
+		"register": "Đăng ký"
+	}
+}

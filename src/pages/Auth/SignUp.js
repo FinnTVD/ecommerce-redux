@@ -1,17 +1,23 @@
-import { Button, Form, Input } from "antd";
-import axios from "axios";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+
 import useNotificationAuth from "../../hooks/useNotificationAuth";
 import { portAuth } from "../../utils/global";
 import useResize from "../../hooks/useResize";
+
+import { Button, Form, Input } from "antd";
+import useLanguage from "../../hooks/useLanguage";
 
 const SignUp = () => {
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
 	const widthScreen = useResize();
+	const selectionLanguage = useLanguage();
+	const { t } = useTranslation("signup");
 
 	useEffect(() => {
 		if (user && user.email) {
@@ -56,9 +62,10 @@ const SignUp = () => {
 	return (
 		<div className="relative flex justify-between w-screen h-screen max-md:flex-col bg-gradient-to-r from-indigo-600 to-sky-400">
 			{contextHolder}
+			{selectionLanguage}
 			<div className="flex flex-col items-center justify-center w-[35%] max-md:w-full max-md:gap-y-5 gap-y-10">
 				<h1 className="text-5xl font-bold text-center text-white max-md:text-xl max-md:mt-10">
-					Welcome
+					{t("signup.welcome")}
 				</h1>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -75,12 +82,14 @@ const SignUp = () => {
 					/>
 				</svg>
 				<p className="text-center text-white max-md:px-4">
-					Hãy đăng ký tài khoản để được trải nghiệm các sản phẩm tốt
-					nhất của chúng tôi.
+					{t("signup.slogan")}
 				</p>
 				{widthScreen >= 768 && <div className="h-[100px]"></div>}
 			</div>
-			<div className="flex max-md:w-full items-center justify-center w-[calc(65%-80px)] md:bg-white md:dark:bg-[#0f172a] absolute md:h-4/5 top-1/2 right-0 -translate-y-[50%] max-md:-translate-y-[40%] md:before:content-[''] md:before:absolute md:before:bg-white md:before:dark:bg-[#0f172a] md:before:w-[80px] md:before:h-full md:before:z-50 md:before:top-0 md:before:-left-[79px] md:before:rounded-l-[50%]">
+			<div className="flex flex-col max-md:w-full items-center justify-center w-[calc(65%-80px)] md:bg-white md:dark:bg-[#0f172a] absolute md:h-4/5 top-1/2 right-0 -translate-y-[50%] max-md:-translate-y-[40%] md:before:content-[''] md:before:absolute md:before:bg-white md:before:dark:bg-[#0f172a] md:before:w-[80px] md:before:h-full md:before:z-50 md:before:top-0 md:before:-left-[79px] md:before:rounded-l-[50%]">
+				<h1 className="mb-10 text-3xl font-bold text-[#4e4ce6] dark:text-white max-sm:text-2xl max-sm:mt-10 max-sm:mb-0">
+					{t("signup.btnRegister")}
+				</h1>
 				<Form
 					name="basic"
 					labelCol={{
@@ -98,22 +107,18 @@ const SignUp = () => {
 					autoComplete="off"
 				>
 					<Form.Item
-						label="Tên"
+						label={t("signup.nameInput")}
 						name="name"
 						className="max-md:mb-2"
 						rules={[
 							{
 								required: true,
-								message: "Vui lòng điền vào mục này!",
+								message: t("signup.messageRequired"),
 							},
-							// {
-							// 	pattern: new RegExp(
-							// 		/^[a-zA-Z\s\p{L}\p{M}]{2,}$/
-							// 	),
-							// 	message:
-							// 		"Vui lòng nhập tên phải có ít nhất 2 chữ cái!",
-							// },
-							{ min: 2 },
+							{
+								min: 2,
+								message: t("signup.messageNameInput.min"),
+							},
 						]}
 					>
 						<Input autoFocus />
@@ -126,12 +131,15 @@ const SignUp = () => {
 						rules={[
 							{
 								required: true,
-								message: "Vui lòng điền vào mục này!",
+								message: t("signup.messageRequired"),
 							},
 							{
-								min: 6,
-								message:
-									"Vui lòng nhập email phải có từ 6 kí tự trở lên!",
+								pattern: new RegExp(
+									/[^\s@]+@[^\s@]+\.[^\s@]+$/
+								),
+								message: t(
+									"signup.messageEmailInput.regexIsEmail"
+								),
 							},
 						]}
 					>
@@ -139,19 +147,26 @@ const SignUp = () => {
 					</Form.Item>
 
 					<Form.Item
-						label="Mật khẩu"
+						label={t("signup.passwordInput")}
 						name="password"
 						rules={[
 							{
 								required: true,
-								message: "Vui lòng điền vào mục này!",
+								message: t("signup.messageRequired"),
 							},
 							{
 								pattern: new RegExp(
-									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/
+									/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
 								),
-								message:
-									"Vui lòng đặt mật khẩu phải có ít nhất 1 kí tự hoa, 1 kí tự thường, 1 số và có ít nhất 6 kí tự!",
+								message: t(
+									"signup.messagePasswordInput.messagePasswordInput"
+								),
+							},
+							{
+								pattern: new RegExp(/^[^\W_]+$/),
+								message: t(
+									"signup.messagePasswordInput.regexNotUseSpecialCharacters"
+								),
 							},
 						]}
 					>
@@ -164,16 +179,16 @@ const SignUp = () => {
 						}}
 					>
 						<Button type="primary" htmlType="submit">
-							Đăng ký
+							{t("signup.btnRegister")}
 						</Button>
 						<p className="mt-3 dark:text-white">
-							Bạn đã có tài khoản, hãy bấm vào đây để
+							{t("signup.haveAccount")}
 							<span
 								className="text-[#1677ff] cursor-pointer max-md:font-bold max-md:underline max-md:text-white"
 								onClick={() => navigate("/sign-in")}
 							>
 								{" "}
-								Đăng nhập
+								{t("signup.login")}
 							</span>
 						</p>
 					</Form.Item>

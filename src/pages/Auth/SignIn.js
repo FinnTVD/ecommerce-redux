@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -11,6 +11,16 @@ import { setUser } from "../../store/AuthSlice";
 import useResize from "../../hooks/useResize";
 
 import { Button, Checkbox, Form, Input } from "antd";
+import { FacebookFilled, GoogleSquareFilled } from "@ant-design/icons";
+import { auth, fbProvider, ggProvider } from "../../firebase/firebase-config";
+import {
+	FacebookAuthProvider,
+	GoogleAuthProvider,
+	signInWithPopup,
+	signOut,
+} from "firebase/auth";
+import useLanguage from "../../hooks/useLanguage";
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
 	const navigate = useNavigate();
@@ -19,6 +29,37 @@ const SignIn = () => {
 	const [contextHolder, openNotificationWithIcon] = useNotificationAuth();
 	const { user } = useSelector((state) => state.auth);
 	const widthScreen = useResize();
+	const selectionLanguage = useLanguage();
+	const { t } = useTranslation("signin");
+	const [src, setSrc] = useState(null);
+
+	const handleSignInFacebook = () => {
+		signInWithPopup(auth, fbProvider).then((result) => {
+			const user = result.user;
+			const credential =
+				FacebookAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			setSrc(
+				`https://graph.facebook.com/${user.providerData[0].uid}/picture?type=large&access_token=${token}`
+			);
+		});
+	};
+	const handleSignInGoogle = () => {
+		signInWithPopup(auth, ggProvider).then((result) => {
+			const user = result.user;
+			console.log(
+				"🚀 ~ file: SignIn.js:46 ~ signInWithPopup ~ user:",
+				user
+			);
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			setSrc(user.photoURL);
+		});
+	};
+
+	const handleLogoutFacebook = () => {
+		signOut(auth);
+	};
 
 	useEffect(() => {
 		if (user && user.id) {
@@ -62,18 +103,22 @@ const SignIn = () => {
 	};
 
 	return (
-		<div className="flex h-screen lg:justify-between">
+		<div className="relative flex h-screen lg:justify-between">
 			{contextHolder}
+			{selectionLanguage}
 			{widthScreen >= 1024 && (
 				<div className="w-1/2 h-screen">
 					<img
-						src="/image/banner-signin.jpg"
+						src={src ?? "/image/banner-signin.jpg"}
 						alt=""
 						className="object-cover w-full h-full"
 					/>
 				</div>
 			)}
 			<div className="relative flex flex-col items-center justify-between lg:w-1/2 w-full dark:bg-[#0f172a]">
+				<h1 className="mt-20 text-3xl font-bold text-blue-600 dark:text-white max-sm:mt-16">
+					{t("signin.title")}
+				</h1>
 				<Form
 					name="basic"
 					labelCol={{
@@ -98,19 +143,19 @@ const SignIn = () => {
 						rules={[
 							{
 								required: true,
-								message: "Vui lòng nhập email của bạn!",
+								message: t("signin.messageRequiredEmail"),
 							},
 						]}
 					>
 						<Input type="email" autoFocus />
 					</Form.Item>
 					<Form.Item
-						label="Mật khẩu"
+						label={t("signin.passwordInput")}
 						name="password"
 						rules={[
 							{
 								required: true,
-								message: "Vui lòng nhập mật khẩu của bạn!",
+								message: t("signin.messageRequiredPassword"),
 							},
 						]}
 					>
@@ -125,7 +170,7 @@ const SignIn = () => {
 						}}
 						className="mb-1"
 					>
-						<Checkbox>Nhớ mật khẩu</Checkbox>
+						<Checkbox>{t("signin.saveAccount")}</Checkbox>
 					</Form.Item>
 
 					<Form.Item
@@ -134,13 +179,29 @@ const SignIn = () => {
 						}}
 					>
 						<Button type="primary" htmlType="submit">
-							Đăng nhập
+							{t("signin.title")}
 						</Button>
+						<div className="w-full mt-5">
+							<Button
+								onClick={handleSignInFacebook}
+								className="flex items-center w-full mb-2 dark:text-white"
+							>
+								<FacebookFilled className="text-blue-500 text-3xl !flex items-center " />
+								Facebook
+							</Button>
+							<Button
+								onClick={handleSignInGoogle}
+								className="flex items-center w-full dark:text-white"
+							>
+								<GoogleSquareFilled className="text-blue-500 text-3xl !flex items-center " />
+								Google
+							</Button>
+						</div>
 						<p className="mt-3 dark:text-white">
-							Nếu bạn chưa có tài khoản hãy bấm vào đây để
+							{t("signin.notHaveAccount")}
 							<Link className="text-[#1677ff]" to="/sign-up">
 								{" "}
-								Đăng ký
+								{t("signin.register")}
 							</Link>
 						</p>
 					</Form.Item>

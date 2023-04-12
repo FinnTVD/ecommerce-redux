@@ -1,0 +1,22 @@
+{
+	"signup": {
+		"welcome": "Welcome you",
+		"slogan": "Sign up for an account to experience our best products.",
+		"nameInput": "Name",
+		"messageRequired": "Please fill out this field!",
+		"messageNameInput": {
+			"min": "Please enter a name that must be at least 2 letters!"
+		},
+		"messageEmailInput": {
+			"regexIsEmail": "This field is not valid, please try again!"
+		},
+		"passwordInput": "Password",
+		"messagePasswordInput": {
+			"messagePasswordInput": "Please set your password to be at least 1 uppercase character, 1 lowercase character, 1 number, and at least 6 characters!",
+			"regexNotUseSpecialCharacters": "Do not use special characters, please try again!"
+		},
+		"btnRegister": "Register",
+		"haveAccount": "You already have an account, click here to",
+		"login": "Sign in"
+	}
+}

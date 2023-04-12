@@ -1,0 +1,23 @@
+{
+	"signup": {
+		"welcome": "Chào mừng bạn",
+		"slogan": "Hãy đăng ký tài khoản để được trải nghiệm các sản phẩm tốt nhất của chúng tôi.",
+		"nameInput": "Tên",
+		"messageRequired": "Vui lòng điền vào mục này!",
+		"messageNameInput": {
+			"min": "Vui lòng nhập tên phải có ít nhất 2 chữ cái!"
+		},
+		"messageEmailInput": {
+			"min": "Vui lòng nhập email phải có từ 6 kí tự trở lên!",
+			"regexIsEmail": "Trường này chưa hợp lệ, vui lòng thử lại!"
+		},
+		"passwordInput": "Mật khẩu",
+		"messagePasswordInput": {
+			"regexCheckPassword": "Vui lòng đặt mật khẩu phải có ít nhất 1 kí tự hoa, 1 kí tự thường, 1 số và có ít nhất 6 kí tự!",
+			"regexNotUseSpecialCharacters": "Không được sử dụng ký tự đặc biệt, vui lòng thử lại!"
+		},
+		"btnRegister": "Đăng ký",
+		"haveAccount": "Bạn đã có tài khoản, hãy bấm vào đây để",
+		"login": "Đăng nhập"
+	}
+}

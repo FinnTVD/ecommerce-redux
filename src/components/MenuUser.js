@@ -15,7 +15,7 @@ const MenuUser = ({ handleSignOut, onClose }) => {
 			{menuUser.map((e) => (
 				<NavLink
 					to={e.path}
-					className={`py-2 px-3 rounded-lg hover:bg-[#1677ff] hover:text-white`}
+					className="py-2 px-3 rounded-lg hover:bg-[#1677ff] hover:text-white"
 					key={e.id}
 					onClick={onClose}
 				>

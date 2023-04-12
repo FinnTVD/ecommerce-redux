@@ -5,6 +5,7 @@ import { authRefreshToken } from "./store/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import Test from "./Test";
+import Page404 from "./pages/404";
 
 const SignUp = lazy(() => import("./pages/Auth/SignUp"));
 const SignIn = lazy(() => import("./pages/Auth/SignIn"));
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
 				element: <Test />,
 			},
 		],
+	},
+	{
+		path: "*",
+		element: <Page404 />,
 	},
 ]);
 

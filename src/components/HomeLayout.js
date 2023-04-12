@@ -170,7 +170,7 @@ const HomeLayout = () => {
 												className={`${
 													index === selectedKeys &&
 													"dark:bg-white bg-[#a8aaae] dark:!text-black !font-bold"
-												} py-3 dark:text-white font-medium`}
+												} py-3 dark:text-white font-medium cursor-pointer hover:bg-[#545353]`}
 												key={index}
 											>
 												{e.title}

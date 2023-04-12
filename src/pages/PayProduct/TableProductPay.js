@@ -12,7 +12,11 @@ const TableProductPay = ({ selectedRowKeys = [] }) => {
 			title: <p className="text-center">Hình ảnh</p>,
 			dataIndex: "avatar",
 			render: (src) => (
-				<Image className="w-20 h-20 object-contain" src={src} alt="" />
+				<Image
+					className="!w-20 !h-20 object-contain"
+					src={src}
+					alt=""
+				/>
 			),
 		},
 		{
